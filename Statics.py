@@ -119,6 +119,7 @@ head = """<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
@@ -141,7 +142,7 @@ head = """<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 #</head>
 
 #<body>
-body = """<form method="POST" action="/">
+body = """<form id+="myForm" method="POST" action="/">
     <!-- Origin and Destination Dropdowns in a Single Row -->
     <div class="dropdowns">
         <div>
@@ -173,6 +174,7 @@ body = """<form method="POST" action="/">
     <button type="submit" name="action" value="calculate">Calculate</button>
     <button type="submit" name="action" value="reset">Reset</button>
     <button type="submit" name="action" value="options">Options</button>
+    <input type="checkbox" name="route" value="true" {% if show_routes %}checked{% endif %}>
 </form>
 
 {% if origin and destination and tonnage is not none %}
@@ -197,9 +199,9 @@ body = """<form method="POST" action="/">
 Map_init = """var map_ef351b401d0d0ebc9cf28f62d63cb3ee = L.map(
                 "map_ef351b401d0d0ebc9cf28f62d63cb3ee",
                 {
-                    center: [-19.6692, 27.4823],
+                    center: [10, 10],
                     crs: L.CRS.EPSG3857,
-                    zoom: 5,
+                    zoom: 2,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -316,6 +318,7 @@ Trip_dict = {
     ("Lubumbashi", "Dar es Salaam"): Truck_Lubumbashi_to_Dar_es_Salaam,
     ("Lubumbashi", "Lobito"): Truck_Lubumbashi_to_Lobito,
     ("Lubumbashi", "Beira"): Truck_Lubumbashi_to_Beira,
+   
 }
 
 
@@ -324,26 +327,55 @@ Trip_list = [Truck_Lubumbashi_to_Durban,Truck_Lubumbashi_to_Walvis_Bay,
             Truck_Lubumbashi_to_Lobito,Truck_Lubumbashi_to_Beira,
             ]
 
+truck_list = []
+
 train_list = []
 
 Show_trip = []
 
 def Show_trips(start,end):
-    try:
-        Show_trip = []
-        Show_trip.append(Trip_dict[start,end])
-        return Show_trip
-    except: 
-        TL = make_train_routes()       
-        for i in TL:
-            Trip_list.append(i)
-        print(Trip_list)
+    if(start == end):
+        Trip_list.clear()
         return Trip_list
+    else:
+        try:
+            Show_trip = []
+            Show_trip.append(Trip_dict[start,end])
+            return Show_trip
+        except: 
+            TL = make_train_routes()       
+            for i in TL:
+                Trip_list.append(i)
+            TL = make_truck_routes()       
+            for i in TL:
+                Trip_list.append(i)
+            #print(Trip_list)
+            return Trip_list
     
 
 marker_list = []
 
 port_list = []
+
+def make_truck_routes():    
+    truck_list.clear()
+    for i in range(len(ChrisData.ChatVars.truck_routes)):
+        truck = ChrisData.ChatVars.truck_routes[i]
+        Truck = ""
+        Truck = """var Truck"""+truck["name"]+""" = L.polyline(
+                """+ str(truck["coords"]) +""",
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+
+            Truck"""+truck["name"]+""".bindTooltip(
+                `<div>
+                        """+truck["name"]+"""
+                    </div>`,
+                {"sticky": true}
+            );"""
+        truck_list.append(Truck)
+    return truck_list
 
 
 def make_train_routes():    
@@ -380,7 +412,7 @@ def make_port():
                 {}
             ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
             var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
-                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":\""""+color_options[color_flow(i)+8]+"""\", "prefix": "glyphicon"}
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":\""""+color_options[color_flow(i)]+"""\", "prefix": "glyphicon"}
             );
             marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
             var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});

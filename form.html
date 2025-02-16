@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Shipping Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: radial-gradient(circle, #1a1a2e, #16213e);
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+    <form class="glass w-full max-w-2xl p-6 space-y-6">
+        <h1 class="text-2xl font-bold text-center">Futuristic Shipping Form</h1>
+        
+        <!-- Shipment Type -->
+        <div>
+            <h2 class="text-lg font-semibold">Select Shipment Type</h2>
+            <label class="mr-4"><input type="radio" name="shipment" value="import"> Import</label>
+            <label><input type="radio" name="shipment" value="export"> Export</label>
+        </div>
+
+        <!-- Trade Terms -->
+        <div>
+            <h2 class="text-lg font-semibold">Select Trade Terms</h2>
+            <select class="w-full p-2 rounded bg-gray-800 text-white">
+                <option>EXW (Ex Works)</option>
+                <option>FOB (Free on Board)</option>
+                <option>CIF (Cost, Insurance & Freight)</option>
+                <option>CFR (Cost & Freight)</option>
+                <option>DAP (Delivered at Place)</option>
+                <option>DDP (Delivered Duty Paid)</option>
+            </select>
+        </div>
+
+        <!-- Cargo Type -->
+        <div>
+            <h2 class="text-lg font-semibold">Select Cargo Type & Container Size</h2>
+            <label class="block"><input type="radio" name="cargo" value="fcl"> FCL (Full Container Load)</label>
+            <label class="block"><input type="radio" name="cargo" value="lcl"> LCL (Less than Container Load)</label>
+            <label class="block"><input type="radio" name="cargo" value="bulk"> Bulk Cargo</label>
+            <label class="block"><input type="radio" name="cargo" value="special"> Special Project Cargo</label>
+        </div>
+
+        <!-- FCL Container Options -->
+        <div id="fcl-options" class="hidden">
+            <h3 class="text-md font-semibold">FCL Options</h3>
+            <select class="w-full p-2 rounded bg-gray-800 text-white">
+                <option>20' GP</option>
+                <option>40' GP</option>
+                <option>40' HC</option>
+                <option>45' HC</option>
+                <option>Open Top</option>
+                <option>Flat Rack</option>
+                <option>Tank Container</option>
+            </select>
+            <input type="number" placeholder="Number of Containers" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="text" placeholder="Total Cargo Weight per Container" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+        </div>
+
+        <!-- LCL Options -->
+        <div id="lcl-options" class="hidden">
+            <h3 class="text-md font-semibold">LCL Options</h3>
+            <input type="text" placeholder="Total Cargo Volume (CBM)" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="text" placeholder="Total Cargo Weight (MT)" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <label class="block mt-2"><input type="checkbox"> Consolidation</label>
+        </div>
+
+        <!-- Bulk Cargo Options -->
+        <div id="bulk-options" class="hidden">
+            <h3 class="text-md font-semibold">Bulk Cargo Options</h3>
+            <label class="block"><input type="radio" name="bulk" value="dry"> Dry Bulk</label>
+            <label class="block"><input type="radio" name="bulk" value="liquid"> Liquid Bulk</label>
+            <label class="block"><input type="radio" name="bulk" value="breakbulk"> Breakbulk</label>
+            <input type="text" placeholder="Cargo Volume" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="text" placeholder="Cargo Weight" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+        </div>
+
+        <!-- Special Cargo Options -->
+        <div id="special-options" class="hidden">
+            <h3 class="text-md font-semibold">Special Project Cargo</h3>
+            <label class="block"><input type="radio" name="special" value="oversized"> Oversized Cargo</label>
+            <label class="block"><input type="radio" name="special" value="custom"> Custom Equipment Needed</label>
+            <input type="text" placeholder="Cargo Dimensions" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="text" placeholder="Total Cargo Weight" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+        </div>
+        
+        <button type="submit" class="w-full p-3 bg-blue-500 rounded hover:bg-blue-700">Submit</button>
+    </form>
+    
+    <script>
+        document.querySelectorAll('input[name="cargo"]').forEach(input => {
+            input.addEventListener('change', function() {
+                document.getElementById('fcl-options').classList.add('hidden');
+                document.getElementById('lcl-options').classList.add('hidden');
+                document.getElementById('bulk-options').classList.add('hidden');
+                document.getElementById('special-options').classList.add('hidden');
+                if (this.value === 'fcl') document.getElementById('fcl-options').classList.remove('hidden');
+                if (this.value === 'lcl') document.getElementById('lcl-options').classList.remove('hidden');
+                if (this.value === 'bulk') document.getElementById('bulk-options').classList.remove('hidden');
+                if (this.value === 'special') document.getElementById('special-options').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

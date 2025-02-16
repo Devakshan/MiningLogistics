@@ -31,13 +31,6 @@ class funcs:
                 m.save("index.html")
         return
 
-
-#for truck_routes in ChrisData.ChatVars.truck_routes:
-#   folium.PolyLine(truck_routes["coords"], tooltip="Truck "+ str(truck_routes["name"]), color="#FF0000",).add_to(m)
-
-#for train_routes in ChrisData.ChatVars.train_routes:
-#    folium.PolyLine(train_routes["coords"], tooltip="Train "+ str(train_routes["name"]), color="#0000FF",).add_to(m)
-
 m.save("index.html")
 
 

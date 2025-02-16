@@ -128,29 +128,45 @@
 
 
 </head>
-
-<body><form method="POST" action="/">
-    <!-- Origin and Destination Dropdowns in a Single Row -->
-    <div class="dropdowns">
-        <div>
-            <label for="origin">Origin:</label>
-            <select id="origin" name="origin">
-                {% for origin in origin %}
-                    <option value="{{ origin }}">{{ origin }}</option>
-                {% endfor %}
-                <!-- Add more origins as needed -->
-            </select>
+<body>
+    <form method="POST" action="/">
+        <!-- Origin, Port of Loading, Port of Destination, and Destination Dropdowns in a Single Row -->
+        <div class="dropdowns">
+            <div>
+                <label for="origin">Origin:</label>
+                <select id="origin" name="origin">
+                    {% for origin in origin %}
+                        <option value="{{ origin }}">{{ origin }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="port_loading">Port of Loading:</label>
+                <select id="port_loading" name="port_loading">
+                    {% for port in port_loading %}
+                        <option value="{{ port }}">{{ port }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="port_destination">Port of Destination:</label>
+                <select id="port_destination" name="port_destination">
+                    {% for port in port_destination %}
+                        <option value="{{ port }}">{{ port }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="destination">Destination:</label>
+                <select id="destination" name="destination">
+                    {% for destination in destination %}
+                        <option value="{{ destination }}">{{ destination }}</option>                    
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-        <div>
-            <label for="destination">Destination:</label>
-            <select id="destination" name="destination">
-                {% for destination in destination %}
-                    <option value="{{ destination }}">{{ destination }}</option>                    
-                {% endfor %}
-                <!-- Add more destinations as needed -->
-            </select>
-        </div>
-    </div>
+    </form>
+</body>
 
     <!-- Tonnage Input -->
     <div>

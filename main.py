@@ -49,10 +49,10 @@ def price(start, end, tons):
     
     cost = 0
     flag = False
-    for trips in ChrisData.ChatVars.truck_routes:
+    '''for trips in ChrisData.ChatVars.truck_routes:
         if((trips["start"] == start ) and (trips["end"] == end )):
             cost = trips["cost"] * tons
-            flag = True
+            flag = True'''
     if (flag):
         return cost
     else:
@@ -72,6 +72,7 @@ def index():
         if action == 'calculate':
             selected_origin = request.form.get("origin")
             selected_destination = request.form.get("destination")
+            
             try:
                 tonnage = int(request.form.get("tonnage", 0))
             except:
@@ -100,11 +101,19 @@ def index():
         elif action == 'reset':
             selected_origin = request.form.get("origin")
             selected_destination = request.form.get("destination")
+            show_routes = request.form.get("route")
+            show_routes_checked = show_routes == "true"
+            print(show_routes_checked)
+            
             tonnage = 0 
             distance = dist(selected_origin,selected_destination) 
             total_cost = price(selected_origin,selected_destination,tonnage)
-            T = Statics.Show_trips(selected_origin,selected_destination)
-            Statics.compile(T) 
+            if(show_routes_checked):
+                T = Statics.Show_trips(selected_origin,selected_destination)
+                Statics.compile(T) 
+            else:
+                T = Statics.Show_trips("","")
+                Statics.compile(T)
             #print(T)
             # Calculate distance and total cost
             '''route_key = (selected_origin, selected_destination)        
@@ -119,8 +128,14 @@ def index():
                 total_cost=total_cost,
                 tonnage=0,
                 distance=distance,
+                show_routes = show_routes_checked    
             ), 200
         
+        elif action == 'options':
+            return render_template(
+                "form.html",
+                ), 200    
+
         else:
             return "Invalid action!", 400
     else:
@@ -141,4 +156,4 @@ def index():
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
