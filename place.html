@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+        
+
+        <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #000000;
+        margin: 0;
+        padding: 0;
+    }
+
+    form {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: linear-gradient(135deg, #c8d111, #25cc07, #ffc800);
+        border-radius: 0 0 15px 15px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .dropdowns {
+        display: flex;
+        gap: 10px;
+    }
+
+    .dropdowns div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-size: 2rem;
+        margin-bottom: 4px;
+    }
+
+    select, input[type="number"], button {
+        height: 35px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    select {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    select option {
+        color: #000000;
+    }
+
+    input[type="number"] {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    select:focus, input[type="number"]:focus {
+        outline: none;
+        box-shadow: 0 0 10px #0078ff;
+    }
+
+    
+
+    button:hover {
+        background: linear-gradient(45deg, #0078ff, #00d9ff);
+        box-shadow: 0 0 15px #00d9ff;
+    }
+
+    .output {
+        position: fixed;
+        top: 100px;
+        left: 0;
+        right: 0;
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        text-align: center;
+        max-height: 95px;
+        overflow-y: auto;
+    }
+</style>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_ef351b401d0d0ebc9cf28f62d63cb3ee {
+                    position: absolute;
+                    width: 100.0%;
+                    height: 75.0%;
+                    left: 0.0%;
+                    top: 25.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+
+
+</head>
+
+<body><form method="POST" action="/">
+    <!-- Origin and Destination Dropdowns in a Single Row -->
+    <div class="dropdowns">
+        <div>
+            <label for="origin">Origin:</label>
+            <select id="origin" name="origin">
+                {% for origin in origin %}
+                    <option value="{{ origin }}">{{ origin }}</option>
+                {% endfor %}
+                <!-- Add more origins as needed -->
+            </select>
+        </div>
+        <div>
+            <label for="destination">Destination:</label>
+            <select id="destination" name="destination">
+                {% for destination in destination %}
+                    <option value="{{ destination }}">{{ destination }}</option>                    
+                {% endfor %}
+                <!-- Add more destinations as needed -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Tonnage Input -->
+    <div>
+        <label for="tonnage">Tonnage:</label>
+        <input type="number" id="tonnage" name="tonnage" min="0" step="any" required>
+    </div>
+
+    <button type="submit">Calculate</button>
+    <button type="submit">Reset</button>
+    
+</form>
+
+{% if origin and destination and tonnage is not none %}
+    <div class="output">
+        <h2>Calculation Result:</h2>
+        <p>Tonnage: {{ tonnage }} tons<br/>
+        
+        {% if distance %}
+            Distance: {{ distance }} miles<br/>
+            Total Cost: R {{ total_cost }}</p>
+        {% else %}
+            <p>Sorry, no route found for the selected origin and destination.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
+
+    <div class="folium-map" id="map_ef351b401d0d0ebc9cf28f62d63cb3ee" ></div>
+
+
+
+</body>
+
+ <script>var map_ef351b401d0d0ebc9cf28f62d63cb3ee = L.map(
+                "map_ef351b401d0d0ebc9cf28f62d63cb3ee",
+                {
+                    center: [-19.6692, 27.4823],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 5,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+var tile_layer_d332b0be0df238699131b3418790844d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );        
+    
+            tile_layer_d332b0be0df238699131b3418790844d.addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+
+var popup_c1bfd404112292525114677c96351f7d = L.popup({"maxWidth": "100%"});
+
+                var html_190a209cb5aa8fe4481964b0711c0115 = $(`<div id="html_190a209cb5aa8fe4481964b0711c0115" style="width: 100.0%; height: 100.0%;">Timberline Lodge</div>`)[0];
+                popup_c1bfd404112292525114677c96351f7d.setContent(html_190a209cb5aa8fe4481964b0711c0115);
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8722, 25.1394],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"red", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lumwana</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on high-grade copper concentrate exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.6282, 28.0592],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chambishi (NFC1)</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Processes concentrate from nearby mines.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.1184, 28.4329],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Baluba</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Underground mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.628, 28.06],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"orange", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chambishi (NFC2)</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Feeds the Chambishi smelter.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.85, 27.8],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"beige", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mwambashi1</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>New exploration and extraction site.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.9454, 28.6698],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"green", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Muliashi SxEw</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces copper cathodes.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.849, 27.801],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mwambashi2</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Electrowinning technology site.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.385, 27.817],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lubambe (Konkola North)</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Joint venture with ZCCM.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.0969, 26.4273],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"blue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kansanshi1</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of Africa's largest copper producers.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.515, 25.036],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Sentinel</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on low-grade ore processing.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.0979, 26.4283],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"cadetblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kansanshi2</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces copper cathodes for export.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.0989, 26.4293],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kansanshi3</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Processes feedstock from Kansanshi mine.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.082, 28.659],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Sable Conc Leach</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Reprocessing tailings and concentrate.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.523, 27.853],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Nchanga</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Underground and open-pit operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.385, 27.817],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"pink", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Konkola</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Deepest underground mine in Zambia.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-14.9814, 27.0604],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"gray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mumbwa</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Eco-friendly mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.564, 28.24],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mufulira</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Major copper producer in Zambia.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.831, 28.196],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"black", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Nkana</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Feeds nearby smelting facilities.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-29.8587, 31.0218],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"blue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Durban</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Key export hub for Asia and Europe.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-22.9576, 14.5058],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"darkblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Walvis Bay</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Connection to Europe and North America.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.3646, 13.5304],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"cadetblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lobito</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Connects to Europe and South America.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-6.7924, 39.2083],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Dar es Salaam</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Gateway to Asia and the Middle East.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-19.8454, 34.8385],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Beira</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Strategic port for Asia and Europe.</div>`,
+                {"sticky": true}
+            );
+
+var poly_line_3a9a2c0d59e109c27b749dad124d5cd1 = L.polyline(
+                [[-11.6692, 27.4823], [-15.3875, 28.3228], [-22.215, 30.0], [-29.8587, 31.0218]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+    
+            poly_line_3a9a2c0d59e109c27b749dad124d5cd1.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Durban
+                 </div>`,
+                {"sticky": true}
+            );
+
+var poly_line_d26c656864e522ef473a5e9ff4252609 = L.polyline(
+                [[-11.6692, 27.4823], [-17.499, 24.2891], [-22.9576, 14.5058]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+    
+            poly_line_d26c656864e522ef473a5e9ff4252609.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Walvis Bay
+                 </div>`,
+                {"sticky": true}
+            );
+
+var poly_line_8971b55457d978dd4546a5247ca6ea7e = L.polyline(
+                [[-11.6692, 27.4823], [-8.2833, 33.8331], [-6.7924, 39.2083]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);     
+    
+            poly_line_8971b55457d978dd4546a5247ca6ea7e.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Dar es Salaam
+                 </div>`,
+                {"sticky": true}
+            );
+
+var poly_line_67c6c51c488b3df0b50f736b6f4be277 = L.polyline(
+                [[-11.6692, 27.4823], [-12.5, 20.5], [-12.3646, 13.5304]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+    
+            poly_line_67c6c51c488b3df0b50f736b6f4be277.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Lobito
+                 </div>`,
+                {"sticky": true}
+            );
+
+var poly_line_67c6c51c488b3df0b50f736b6f4be277 = L.polyline(
+                [[-11.6692, 27.4823], [-12.5, 20.5], [-12.3646, 13.5304]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+    
+            poly_line_67c6c51c488b3df0b50f736b6f4be277.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Lobito
+                 </div>`,
+                {"sticky": true}
+            );
+
+ var poly_line_af300341ae212266aff1c37ef48d4966 = L.polyline(
+                [[-11.6692, 27.4823], [-14.0, 26.0], [-19.8454, 34.8385]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+    
+            poly_line_af300341ae212266aff1c37ef48d4966.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Beira
+                 </div>`,
+                {"sticky": true}
+            );
+
+var poly_line_e9569ea122be33360e5ec962c4d66dac = L.polyline(
+                [[-12.3646, 13.5304], [-12.0, 20.0], [-11.6692, 27.4823]],
+                {"bubblingMouseEvents": true, "color": "#0000FF", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#0000FF", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+    
+            poly_line_e9569ea122be33360e5ec962c4d66dac.bindTooltip(
+                `<div>
+                     Train Benguela Railway
+                 </div>`,
+                {"sticky": true}
+            );
+
+var poly_line_cc8e45c5ffd31c78326878ce70fd548d = L.polyline(
+                [[-6.7924, 39.2083], [-8.2833, 33.8331], [-15.3875, 28.3228]],
+                {"bubblingMouseEvents": true, "color": "#0000FF", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#0000FF", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+    
+            poly_line_cc8e45c5ffd31c78326878ce70fd548d.bindTooltip(
+                `<div>
+                     Train TAZARA Railway
+                 </div>`,
+                {"sticky": true}
+            );
+
+
+
+</script>
+
+ </html>

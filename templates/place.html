@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+        
+
+        <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #000000;
+        margin: 0;
+        padding: 0;
+    }
+
+    form {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: linear-gradient(90deg, #c8d111, #25cc07, #ffc800);
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        margin-bottom: -10px;
+    }
+
+    .dropdowns {
+        display: flex;
+        gap: 10px;
+    }
+
+    .dropdowns div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-size: 2rem;
+        margin-bottom: 4px;
+    }
+
+    select, input[type="number"], button {
+        height: 35px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    select {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    select option {
+        color: #000000;
+    }
+
+    input[type="number"] {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    select:focus, input[type="number"]:focus {
+        outline: none;
+        box-shadow: 0 0 10px #0078ff;
+    }
+
+    button {
+        background: linear-gradient(45deg, #00d7ff, #0075ff);
+        color: #000000;c
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background: linear-gradient(45deg, #0078ff, #00d9ff);
+        box-shadow: 0 0 15px #00d9ff;
+    }
+
+    .output {
+        position: fixed;
+        top: 100px;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255);
+        //background: linear-gradient(90deg, #c8d111, #25cc07, #ffc800);       
+        border-radius: 0 0 15px 15px;
+        z-index: 1000;
+        text-align: center;
+        max-height: 99px;
+        overflow-y: auto;
+    }
+</style>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_ef351b401d0d0ebc9cf28f62d63cb3ee {
+                    position: absolute;
+                    width: 100.0%;
+                    height: 75.0%;
+                    left: 0.0%;
+                    top: 25.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+
+
+</head>
+
+<body><form method="POST" action="/">
+    <!-- Origin and Destination Dropdowns in a Single Row -->
+    <div class="dropdowns">
+        <div>
+            <label for="origin">Origin:</label>
+            <select id="origin" name="origin">
+                {% for origin in origin %}
+                    <option value="{{ origin }}">{{ origin }}</option>
+                {% endfor %}
+                <!-- Add more origins as needed -->
+            </select>
+        </div>
+        <div>
+            <label for="destination">Destination:</label>
+            <select id="destination" name="destination">
+                {% for destination in destination %}
+                    <option value="{{ destination }}">{{ destination }}</option>                    
+                {% endfor %}
+                <!-- Add more destinations as needed -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Tonnage Input -->
+    <div>
+        <label for="tonnage">Tonnage:</label>
+        <input type="number" id="tonnage" name="tonnage" min="0" step="any" >
+    </div>
+
+    <button type="submit" name="action" value="calculate">Calculate</button>
+    <button type="submit" name="action" value="reset">Reset</button>
+    <button type="submit" name="action" value="options">Options</button>
+</form>
+
+{% if origin and destination and tonnage is not none %}
+    <div class="output">
+        <h2>From:{{ selected_origin }} To: {{ selected_destination }} </h2>
+        <p>Tonnage: {{ tonnage }} tons<br/>
+        
+        {% if distance %}
+            Distance: {{ distance }} miles<br/>
+            Total Cost: R {{ total_cost }}</p>
+        {% else %}
+            <p>Sorry, no route found for the selected origin and destination.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
+
+    <div class="folium-map" id="map_ef351b401d0d0ebc9cf28f62d63cb3ee" ></div>
+
+
+
+</body>
+
+ <script>var map_ef351b401d0d0ebc9cf28f62d63cb3ee = L.map(
+                "map_ef351b401d0d0ebc9cf28f62d63cb3ee",
+                {
+                    center: [-19.6692, 27.4823],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 5,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+var tile_layer_d332b0be0df238699131b3418790844d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );        
+    
+            tile_layer_d332b0be0df238699131b3418790844d.addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+
+var popup_c1bfd404112292525114677c96351f7d = L.popup({"maxWidth": "100%"});
+
+                var html_190a209cb5aa8fe4481964b0711c0115 = $(`<div id="html_190a209cb5aa8fe4481964b0711c0115" style="width: 100.0%; height: 100.0%;">Timberline Lodge</div>`)[0];
+                popup_c1bfd404112292525114677c96351f7d.setContent(html_190a209cb5aa8fe4481964b0711c0115);
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.4536, 27.4242],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"red", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Amical Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in copper and cobalt exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7294, 26.5835],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Boss Mining</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces copper concentrates in medium-scale operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7076, 25.5141],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">AMC Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on high-grade copper concentrate exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8373, 27.4723],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"orange", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">CDM Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A significant exporter of copper and cobalt.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.5662, 27.4869],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"beige", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chemaf Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on efficient copper and cobalt mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7522, 25.6504],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"green", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chengtun</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of the largest exporters of copper concentrate in the region.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.9075, 27.4725],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">CILCMC Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces and exports high-quality copper.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.3, 27.8],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">CNMC Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Operates a large-scale copper mining facility.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.7698, 27.5234],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"blue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Comika Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on copper and cobalt production for export.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8654, 27.5678],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Comilu Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A medium-scale copper exporter.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.9542, 27.6345],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"cadetblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Commus Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of the largest copper exporters in the region.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.5642, 27.6293],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">CDI</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in exporting refined copper products.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7654, 25.6543],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Deziwa Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Engages in sustainable copper mining.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.9021, 26.2134],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">DZM Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Small-scale copper producer.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7893, 26.7643],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"pink", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Excellent Minerals Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on high-quality copper exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7865, 26.4876],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"gray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Frontier Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A small-scale copper producer.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.3654, 27.5674],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">GAR Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in copper concentrate exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.65, 27.52],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"black", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Gecamines Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Engages in small-scale copper mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.9875, 26.7452],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Hanrui Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A growing exporter of copper and cobalt.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.5032, 27.6335],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Huachin Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on efficient copper production.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.7643, 27.8643],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Jin Xun Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Small-scale copper mining operation.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.9865, 25.7434],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"red", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kalongwe Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces and exports copper.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.8564, 26.5342],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kambove Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in high-grade copper concentrate.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7987, 26.5432],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kamoa Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Operates large-scale copper mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.8967, 26.6894],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"orange", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">KCC Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of the largest copper and cobalt exporters in the DRC.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7893, 26.8432],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"beige", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kinsenda Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Operates a significant copper mining facility.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.8652, 27.1204],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"green", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kipoi Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces high-quality copper for export.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.5476, 27.6732],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kisanu Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in sustainable copper mining.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7432, 26.7635],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kisantu Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A major player in copper and cobalt mining.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7582, 25.6213],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"blue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kolwezi Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on efficient copper production.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.9621, 26.5342],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">KPM Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces medium-scale copper concentrates.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.8345, 25.6432],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"cadetblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">LAMIKAL Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A growing exporter of copper.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.1336, 28.4167],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Luanshya Smelter</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in smelting copper concentrates.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.5342, 27.7365],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lishi Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Operates one of the largest copper mines in the DRC.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.3564, 27.2432],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">MAF Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces medium-scale copper concentrate.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7873, 25.9643],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"pink", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mutanda Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of the largest producers of cobalt and copper in the DRC.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.6943, 27.5167],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"gray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Ruashi Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on open-pit copper and cobalt mining.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.6017, 26.3548],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Tenke Fungurume</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of the largest copper and cobalt producers globally.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8354, 27.5032],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"black", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Shalina Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces high-grade copper concentrates.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7304, 25.4789],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mutoshi Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Engages in small-scale copper mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.9498, 26.7416],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Sicomines</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A joint venture for copper and cobalt production.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.8652, 25.6798],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Somidez Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Operates a mid-sized copper mine in the DRC.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.8634, 25.9372],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"red", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Tiger Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on sustainable copper mining.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.3567, 27.6521],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">CMOC Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Specializes in copper and cobalt mining.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.4467, 25.8849],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kamoa-Kakula</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of the largest high-grade copper mining operations in the DRC.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.6478, 26.1856],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"orange", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">TFM Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A global player in copper and cobalt production.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.6934, 27.5118],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"beige", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Ruashi Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Operates a significant copper-cobalt mine.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-10.7421, 26.5172],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"green", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Frontier Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on copper concentrate exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8122, 27.5645],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kamfundwa</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>State-owned mining company specializing in copper production.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8373, 27.4723],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgreen", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">CDM Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>A significant exporter of copper and cobalt.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.8722, 25.1394],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"blue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lumwana</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on high-grade copper concentrate exports.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.6282, 28.0592],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chambishi (NFC1)</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Processes concentrate from nearby mines.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.1184, 28.4329],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"cadetblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Baluba</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Underground mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.628, 28.06],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chambishi (NFC2)</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Feeds the Chambishi smelter.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.85, 27.8],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mwambashi1</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>New exploration and extraction site.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.9454, 28.6698],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Muliashi SxEw</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces copper cathodes.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.849, 27.801],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"pink", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mwambashi2</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Electrowinning technology site.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.385, 27.817],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"gray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lubambe (Konkola North)</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Joint venture with ZCCM.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.0969, 26.4273],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightgray", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kansanshi1</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>One of Africa's largest copper producers.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.515, 25.036],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"black", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Sentinel</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Focuses on low-grade ore processing.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.0979, 26.4283],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kansanshi2</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Produces copper cathodes for export.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.0989, 26.4293],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Kansanshi3</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Processes feedstock from Kansanshi mine.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-13.082, 28.659],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Sable Conc Leach</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Reprocessing tailings and concentrate.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.523, 27.853],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"red", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Nchanga</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Underground and open-pit operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.385, 27.817],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"darkred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Konkola</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Deepest underground mine in Zambia.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-14.9814, 27.0604],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"lightred", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mumbwa</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Eco-friendly mining operations.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.564, 28.24],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"orange", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Mufulira</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Major copper producer in Zambia.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.831, 28.196],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"beige", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Nkana</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Feeds nearby smelting facilities.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-11.6692, 27.4823],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"green", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lubumbashi</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Truck loading zone</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-29.8587, 31.0218],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"blue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Durban</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Key export hub for Asia and Europe.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-22.9576, 14.5058],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"darkblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Walvis Bay</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Connection to Europe and North America.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-12.3646, 13.5304],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"cadetblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Lobito</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Connects to Europe and South America.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-6.7924, 39.2083],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"lightblue", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Dar es Salaam</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Gateway to Asia and the Middle East.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([-19.8454, 34.8385],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"purple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Beira</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Strategic port for Asia and Europe.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([13.0815, 80.2921],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"darkpurple", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Chennai</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Strategic port for Asia and Europe.</div>`,
+                {"sticky": true}
+            );
+
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([33.7542, 118.2165],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "globe", "iconColor": "white", "markerColor":"pink", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Long beach</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Strategic port for Asia and Europe.</div>`,
+                {"sticky": true}
+            );
+
+var Truck_Lubumbashi_to_Durban = L.polyline(
+                [[-11.6692, 27.4823], [-15.3875, 28.3228], [-22.215, 30.0], [-29.8587, 31.0218]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);
+        
+    
+            Truck_Lubumbashi_to_Durban.bindTooltip(
+                `<div>
+                     Truck Lubumbashi to Durban
+                 </div>`,
+                {"sticky": true}
+            );
+
+
+
+</script>
+
+ </html>
