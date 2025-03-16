@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import maps
 import Statics
 import ChrisData
+import pdf
 
 app = Flask(__name__)
 
@@ -58,6 +59,7 @@ def price(start, end, tons):
     else:
         return ""
         
+
 
 @app.route("/", methods=["GET", "POST"])
 
@@ -138,6 +140,35 @@ def index():
 
         else:
             return "Invalid action!", 400
+        
+    elif request.method == "GET":
+        shipment = ""
+        cargo = ""
+        TotCargoWPC = 0
+        
+        params = []
+        for key, value in request.args.items():            
+            params.append(f'{key}: {value}')
+            print("key:"+key+"\n"+"value:"+ value+"\n")
+            if key == "shipment" :
+                shipment = value
+            if key == "cargo" :
+                cargo = value
+            if key == "TotCargoWPC" :
+                TotCargoWPC = value
+        pdf.generate_invoice("logistics_invoice.pdf", pdf.invoice_data)
+        print("{}:{}\n".format(shipment, cargo))  
+        print("weight:{}".format(TotCargoWPC))         
+        return  render_template(
+                "place.html",
+                facilities=facilities,
+                ports=ports,
+                origin=origin,
+                destination=destination,
+                total_cost=total_cost,
+                tonnage=0,
+                distance=distance,
+            ), 200
     else:
         return  render_template(
                 "place.html",

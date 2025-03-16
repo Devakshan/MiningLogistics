@@ -22,7 +22,7 @@
 </head>
 <body class="flex items-center justify-center min-h-screen p-6">
     <form class="glass w-full max-w-2xl p-6 space-y-6">
-        <h1 class="text-2xl font-bold text-center">Futuristic Shipping Form</h1>
+        <h1 class="text-2xl font-bold text-center">Shipping Form</h1>
         
         <!-- Shipment Type -->
         <div>
@@ -66,14 +66,14 @@
                 <option>Tank Container</option>
             </select>
             <input type="number" placeholder="Number of Containers" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
-            <input type="text" placeholder="Total Cargo Weight per Container" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" id="TotCargoWPC" name="TotCargoWPC" placeholder="Total Cargo Weight per Container" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
         </div>
 
         <!-- LCL Options -->
         <div id="lcl-options" class="hidden">
             <h3 class="text-md font-semibold">LCL Options</h3>
-            <input type="text" placeholder="Total Cargo Volume (CBM)" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
-            <input type="text" placeholder="Total Cargo Weight (MT)" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" id="TotCargoVol" placeholder="Total Cargo Volume (CBM)" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" id="TotCargoW" placeholder="Total Cargo Weight (MT)" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
             <label class="block mt-2"><input type="checkbox"> Consolidation</label>
         </div>
 
@@ -83,8 +83,8 @@
             <label class="block"><input type="radio" name="bulk" value="dry"> Dry Bulk</label>
             <label class="block"><input type="radio" name="bulk" value="liquid"> Liquid Bulk</label>
             <label class="block"><input type="radio" name="bulk" value="breakbulk"> Breakbulk</label>
-            <input type="text" placeholder="Cargo Volume" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
-            <input type="text" placeholder="Cargo Weight" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" placeholder="Cargo Volume" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" placeholder="Cargo Weight" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
         </div>
 
         <!-- Special Cargo Options -->
@@ -92,8 +92,8 @@
             <h3 class="text-md font-semibold">Special Project Cargo</h3>
             <label class="block"><input type="radio" name="special" value="oversized"> Oversized Cargo</label>
             <label class="block"><input type="radio" name="special" value="custom"> Custom Equipment Needed</label>
-            <input type="text" placeholder="Cargo Dimensions" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
-            <input type="text" placeholder="Total Cargo Weight" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" placeholder="Cargo Dimensions" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" placeholder="Total Cargo Weight" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
         </div>
         
         <button type="submit" class="w-full p-3 bg-blue-500 rounded hover:bg-blue-700">Submit</button>
