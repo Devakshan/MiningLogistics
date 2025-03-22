@@ -35,7 +35,7 @@ def destinations():
 
 def origins():
     origin_list = []
-    for facilitie in facilities:
+    for facilitie in ports:
         origin_list.append(facilitie["name"])
     return origin_list
 
@@ -145,57 +145,93 @@ def index():
             return "Invalid action!", 400
         
     elif request.method == "GET":
-        shipment = ""
-        cargo = ""
-        TotCargoWPC = 0
-        origin = ""
-        destination = ""
-        containers = 0
-        
-        
+        action = request.form.get('action')  # Get the value of the 'action' button
         params = []
         for key, value in request.args.items():            
             params.append(f'{key}: {value}')
-            print("key:"+key+"\n"+"value:"+ value+"\n")
+            #print("key:"+key+"\n"+"value:"+ value+"\n")
             if key == "shipment" :
                 shipment = value
+            
             if key == "cargo" :
                 cargo = value
+            
             if key == "origin" :
                 origin = value
+            
             if key == "destination" :
                 destination = value
+            
             if key == "TotCargoWPC" :
                 TotCargoWPC = value
+            
             if key == "Containers" :
                 containers = value
             
-        invoice_data = {
-        "Invoice Number": "12345",
-        "Invoice Date": datetime.date.today(),
-        "Shipment Type": cargo,
-        "Origin": origin,
-        "Destination": destination,
-        "Number of Containers": containers,
-        "Tonnage": TotCargoWPC+" tons",
-        "Cost": "$50,000",
-        "Route": "Truck"
-        }
-        
-        pdf.generate_invoice("logistics_invoice.pdf", invoice_data)    
-        distance = dist(origin,destination) 
-        total_cost = price(origin,destination,TotCargoWPC)
-        T = Statics.Show_trips(origin,destination)
-        Statics.compile(T)    
-        return  render_template(
+            if key == "action" :
+                action = value
+            
+                
+        if action == 'submit':                     
+                
+            invoice_data = {
+            "Invoice Number": "12345",
+            "Invoice Date": datetime.date.today(),
+            "Shipment Type": cargo,
+            "Origin": origin,
+            "Destination": destination,
+            "Number of Containers": containers,
+            "Tonnage": str(TotCargoWPC) + " tons",
+            "Cost": "$50,000",
+            "Route": "Truck"
+            }
+            
+            pdf.generate_invoice("logistics_invoice.pdf", invoice_data)    
+            distance = dist(origin,destination) 
+            total_cost = price(origin,destination,TotCargoWPC)
+            T = Statics.Show_trips(origin,destination)
+            Statics.compile(T)    
+            return  render_template(
+                    "place.html",
+                    facilities=facilities,
+                    ports=ports,
+                    origin=origin,
+                    destination=destination,
+                    total_cost=total_cost,
+                    tonnage=TotCargoWPC,
+                    distance=distance,
+                ), 200
+        else:
+            selected_origin = request.form.get("origin")
+            selected_destination = request.form.get("destination")
+            show_routes = request.form.get("route")
+            show_routes_checked = show_routes == "true"
+            print(show_routes_checked)
+            
+            tonnage = 0 
+            distance = dist(selected_origin,selected_destination) 
+            total_cost = price(selected_origin,selected_destination,tonnage)
+            if(show_routes_checked):
+                T = Statics.Show_trips(selected_origin,selected_destination)
+                Statics.compile(T) 
+            else:
+                T = Statics.Show_trips("","")
+                Statics.compile(T)
+            #print(T)
+            # Calculate distance and total cost
+            '''route_key = (selected_origin, selected_destination)        
+            total_cost = tonnage * COST_PER_TON if distance else None
+            '''
+            return render_template(
                 "place.html",
                 facilities=facilities,
                 ports=ports,
                 origin=origin,
                 destination=destination,
                 total_cost=total_cost,
-                tonnage=TotCargoWPC,
+                tonnage=0,
                 distance=distance,
+                show_routes = show_routes_checked    
             ), 200
     else:
         return  render_template(

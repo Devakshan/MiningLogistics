@@ -334,14 +334,14 @@ train_list = []
 Show_trip = []
 
 def Show_trips(start,end):
-
+    
     if(start == end):
         Trip_list.clear()
         return Trip_list
     else:
         try:
-            index = -1
-
+            Show_trip = []
+            index = 0
             TL = make_train_routes()       
             for i in TL:
                 Trip_list.append(i)
@@ -350,21 +350,32 @@ def Show_trips(start,end):
                 Trip_list.append(i)
             
             for truckroutes in ChrisData.ChatVars.truck_routes:
+                
                 if ((start == truckroutes["start"]) and (end == truckroutes["end"])):
-                    exit
+                    Show_trip.append(Trip_list[index])
+                    
                 else:
                     index = index + 1
-            if index > (len(ChrisData.ChatVars.truck_routes)-1):
+            if index >= (len(ChrisData.ChatVars.truck_routes)-1):
+                
                 for trainroutes in ChrisData.ChatVars.train_routes:
+                    
                     if ((start == trainroutes["start"]) and (end == trainroutes["end"])):
-                        exit
+                        Show_trip.append(Trip_list[index])
+                        print(index)
                     else:
                         index = index + 1
-
-            Show_trip = []
-            Show_trip.append(TL[index])
+            
             return Show_trip
         except:        
+            print("E")
+            Trip_list.clear()
+            TL = make_train_routes()       
+            for i in TL:
+                Trip_list.append(i)
+            TL = make_truck_routes()       
+            for i in TL:
+                Trip_list.append(i)
             for i in TL:
                 Trip_list.append(i)
             #print(Trip_list)
