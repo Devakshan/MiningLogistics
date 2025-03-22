@@ -4,6 +4,7 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.pagesizes import letter
+import os
 
 # Define function to generate invoice
 def generate_invoice(filename, invoice_details):
@@ -88,6 +89,8 @@ def generate_invoice(filename, invoice_details):
         canvas.restoreState()
 
     doc.build(elements, onFirstPage=add_page_number, onLaterPages=add_page_number)
+
+    os.system("logistics_invoice.pdf")
 
 # Example invoice data
 invoice_data = {

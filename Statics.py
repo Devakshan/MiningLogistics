@@ -173,7 +173,7 @@ body = """<form id+="myForm" method="POST" action="/">
 
     <button type="submit" name="action" value="calculate">Calculate</button>
     <button type="submit" name="action" value="reset">Reset</button>
-    <button type="submit" name="action" value="options">Options</button>
+    <button type="submit" name="action" value="options">Generate invoice</button>
     <input type="checkbox" name="route" value="true" {% if show_routes %}checked{% endif %}>
 </form>
 
@@ -334,19 +334,37 @@ train_list = []
 Show_trip = []
 
 def Show_trips(start,end):
+
     if(start == end):
         Trip_list.clear()
         return Trip_list
     else:
         try:
-            Show_trip = []
-            Show_trip.append(Trip_dict[start,end])
-            return Show_trip
-        except: 
+            index = -1
+
             TL = make_train_routes()       
             for i in TL:
                 Trip_list.append(i)
             TL = make_truck_routes()       
+            for i in TL:
+                Trip_list.append(i)
+            
+            for truckroutes in ChrisData.ChatVars.truck_routes:
+                if ((start == truckroutes["start"]) and (end == truckroutes["end"])):
+                    exit
+                else:
+                    index = index + 1
+            if index > (len(ChrisData.ChatVars.truck_routes)-1):
+                for trainroutes in ChrisData.ChatVars.train_routes:
+                    if ((start == trainroutes["start"]) and (end == trainroutes["end"])):
+                        exit
+                    else:
+                        index = index + 1
+
+            Show_trip = []
+            Show_trip.append(TL[index])
+            return Show_trip
+        except:        
             for i in TL:
                 Trip_list.append(i)
             #print(Trip_list)

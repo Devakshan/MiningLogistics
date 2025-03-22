@@ -443,322 +443,255 @@ class ChatVars:
         {"name": "Lubumbashi_to_Lobito", "start": "Lubumbashi", "end": "Lobito", "coords": [[-11.6692, 27.4823], [-12.5, 20.5], [-12.3646, 13.5304]], "time": "4 days", "cost": 1000},
         {"name": "Lubumbashi_to_Beira", "start": "Lubumbashi", "end": "Beira", "coords": [[-11.6692, 27.4823], [-14.0000, 26.0000], [-19.8454, 34.8385]], "time": "5 days", "cost": 1300},
         {"name": "Lubumbashi_to_Durban", "start": "Lubumbashi", "end": "Durban", "coords": [[-11.6692, 27.4823], [-15.3875, 28.3228], [-22.2150, 30.0000], [-29.8587, 31.0218]], "time": "7 days", "cost": 1500},
-        {"name": "Ndola_to_Dar_es_Salaam_Port", "start": "Ndola", "end": "Dar es Salaam Port", "coords": [[-12.9587, 28.6366], [-10.0, 32.0], [-8.0, 35.0], [-6.8235, 39.2695]], "time": "4 days", "cost": 1200},
-        {"name": "Lusaka_to_Dar_es_Salaam_Port", "start": "Lusaka", "end": "Dar es Salaam Port", "coords": [[-15.4067, 28.2871], [-13.0, 30.0], [-10.0, 33.0], [-8.0, 36.0], [-6.8235, 39.2695]], "time": "5 days", "cost": 1300},
-        {"name": "Kitwe_to_Dar_es_Salaam_Port", "start": "Kitwe", "end": "Dar es Salaam Port", "coords": [[-12.8202, 28.2116], [-10.0, 31.0], [-8.0, 34.0], [-6.8235, 39.2695]], "time": "4 days", "cost": 1250},
-        {"name": "Lubumbashi_to_Dar_es_Salaam_Port", "start": "Lubumbashi", "end": "Dar es Salaam Port", "coords": [[-11.6696, 27.4585], [-10.0, 30.0], [-8.0, 33.0], [-6.8235, 39.2695]], "time": "6 days", "cost": 1400},
-        {"name": "Chingola_to_Dar_es_Salaam_Port", "start": "Chingola", "end": "Dar es Salaam Port", "coords": [[-12.5283, 27.8836], [-10.5, 30.5], [-8.5, 33.5], [-6.8235, 39.2695]], "time": "5 days", "cost": 1300},
-        {"name": "Likasi_to_Dar_es_Salaam_Port", "start": "Likasi", "end": "Dar es Salaam Port", "coords": [[-10.9833, 26.7333], [-9.0, 29.0], [-7.0, 32.0], [-6.8235, 39.2695]], "time": "6 days", "cost": 1350},
-        {"name": "Kolwezi_to_Dar_es_Salaam_Port", "start": "Kolwezi", "end": "Dar es Salaam Port", "coords": [[-10.7167, 25.4725], [-9.0, 28.0], [-7.0, 31.0], [-6.8235, 39.2695]], "time": "7 days", "cost": 1500},
-        {"name": "Chambishi_to_Dar_es_Salaam_Port", "start": "Chambishi", "end": "Dar es Salaam Port", "coords": [[-12.6328, 28.0539], [-10.5, 30.5], [-8.5, 33.5], [-6.8235, 39.2695]], "time": "5 days", "cost": 1250},
-        {"name": "Dar_es_Salaam_Port_to_Ndola", "start": "Dar es Salaam Port", "end": "Ndola", "coords": [[-6.8235, 39.2695], [-8.0, 35.0], [-10.0, 32.0], [-12.9587, 28.6366]], "time": "4 days", "cost": 1200},
-        {"name": "Dar_es_Salaam_Port_to_Lusaka", "start": "Dar es Salaam Port", "end": "Lusaka", "coords": [[-6.8235, 39.2695], [-8.0, 36.0], [-10.0, 33.0], [-13.0, 30.0], [-15.4067, 28.2871]], "time": "5 days", "cost": 1300},
-        {"name": "Dar_es_Salaam_Port_to_Kitwe", "start": "Dar es Salaam Port", "end": "Kitwe", "coords": [[-6.8235, 39.2695], [-8.0, 34.0], [-10.0, 31.0], [-12.8202, 28.2116]], "time": "4 days", "cost": 1250},
-        {"name": "Dar_es_Salaam_Port_to_Lubumbashi", "start": "Dar es Salaam Port", "end": "Lubumbashi", "coords": [[-6.8235, 39.2695], [-8.0, 33.0], [-10.0, 30.0], [-11.6696, 27.4585]], "time": "6 days", "cost": 1400},
-        {"name": "Dar_es_Salaam_Port_to_Chingola", "start": "Dar es Salaam Port", "end": "Chingola", "coords": [[-6.8235, 39.2695], [-8.5, 33.5], [-10.5, 30.5], [-12.5283, 27.8836]], "time": "5 days", "cost": 1300},
-        {"name": "Dar_es_Salaam_Port_to_Likasi", "start": "Dar es Salaam Port", "end": "Likasi", "coords": [[-6.8235, 39.2695], [-7.0, 32.0], [-9.0, 29.0], [-10.9833, 26.7333]], "time": "6 days", "cost": 1350},
-        {"name": "Dar_es_Salaam_Port_to_Kolwezi", "start": "Dar es Salaam Port", "end": "Kolwezi", "coords": [[-6.8235, 39.2695], [-7.0, 31.0], [-9.0, 28.0], [-10.7167, 25.4725]], "time": "7 days", "cost": 1500},
-        {"name": "Dar_es_Salaam_Port_to_Chambishi", "start": "Dar es Salaam Port", "end": "Chambishi", "coords": [[-6.8235, 39.2695], [-8.5, 33.5], [-10.5, 30.5], [-12.6328, 28.0539]], "time": "5 days", "cost": 1250},
+        {"name": "Ndola_to_Dar_es_Salaam_Port", "start": "Ndola", "end": "Dar es Salaam", "coords": [[-12.9587, 28.6366], [-10.0, 32.0], [-8.0, 35.0], [-6.8235, 39.2695]], "time": "4 days", "cost": 1200},
+        {"name": "Lusaka_to_Dar_es_Salaam_Port", "start": "Lusaka", "end": "Dar es Salaam", "coords": [[-15.4067, 28.2871], [-13.0, 30.0], [-10.0, 33.0], [-8.0, 36.0], [-6.8235, 39.2695]], "time": "5 days", "cost": 1300},
+        {"name": "Kitwe_to_Dar_es_Salaam_Port", "start": "Kitwe", "end": "Dar es Salaam", "coords": [[-12.8202, 28.2116], [-10.0, 31.0], [-8.0, 34.0], [-6.8235, 39.2695]], "time": "4 days", "cost": 1250},
+        {"name": "Lubumbashi_to_Dar_es_Salaam_Port", "start": "Lubumbashi", "end": "Dar es Salaam", "coords": [[-11.6696, 27.4585], [-10.0, 30.0], [-8.0, 33.0], [-6.8235, 39.2695]], "time": "6 days", "cost": 1400},
+        {"name": "Chingola_to_Dar_es_Salaam_Port", "start": "Chingola", "end": "Dar es Salaam", "coords": [[-12.5283, 27.8836], [-10.5, 30.5], [-8.5, 33.5], [-6.8235, 39.2695]], "time": "5 days", "cost": 1300},
+        {"name": "Likasi_to_Dar_es_Salaam_Port", "start": "Likasi", "end": "Dar es Salaam", "coords": [[-10.9833, 26.7333], [-9.0, 29.0], [-7.0, 32.0], [-6.8235, 39.2695]], "time": "6 days", "cost": 1350},
+        {"name": "Kolwezi_to_Dar_es_Salaam_Port", "start": "Kolwezi", "end": "Dar es Salaam", "coords": [[-10.7167, 25.4725], [-9.0, 28.0], [-7.0, 31.0], [-6.8235, 39.2695]], "time": "7 days", "cost": 1500},
+        {"name": "Chambishi_to_Dar_es_Salaam_Port", "start": "Chambishi", "end": "Dar es Salaam", "coords": [[-12.6328, 28.0539], [-10.5, 30.5], [-8.5, 33.5], [-6.8235, 39.2695]], "time": "5 days", "cost": 1250},
+        {"name": "Dar_es_Salaam_Port_to_Ndola", "start": "Dar es Salaam", "end": "Ndola", "coords": [[-6.8235, 39.2695], [-8.0, 35.0], [-10.0, 32.0], [-12.9587, 28.6366]], "time": "4 days", "cost": 1200},
+        {"name": "Dar_es_Salaam_Port_to_Lusaka", "start": "Dar es Salaam", "end": "Lusaka", "coords": [[-6.8235, 39.2695], [-8.0, 36.0], [-10.0, 33.0], [-13.0, 30.0], [-15.4067, 28.2871]], "time": "5 days", "cost": 1300},
+        {"name": "Dar_es_Salaam_Port_to_Kitwe", "start": "Dar es Salaam", "end": "Kitwe", "coords": [[-6.8235, 39.2695], [-8.0, 34.0], [-10.0, 31.0], [-12.8202, 28.2116]], "time": "4 days", "cost": 1250},
+        {"name": "Dar_es_Salaam_Port_to_Lubumbashi", "start": "Dar es Salaam", "end": "Lubumbashi", "coords": [[-6.8235, 39.2695], [-8.0, 33.0], [-10.0, 30.0], [-11.6696, 27.4585]], "time": "6 days", "cost": 1400},
+        {"name": "Dar_es_Salaam_Port_to_Chingola", "start": "Dar es Salaam", "end": "Chingola", "coords": [[-6.8235, 39.2695], [-8.5, 33.5], [-10.5, 30.5], [-12.5283, 27.8836]], "time": "5 days", "cost": 1300},
+        {"name": "Dar_es_Salaam_Port_to_Likasi", "start": "Dar es Salaam", "end": "Likasi", "coords": [[-6.8235, 39.2695], [-7.0, 32.0], [-9.0, 29.0], [-10.9833, 26.7333]], "time": "6 days", "cost": 1350},
+        {"name": "Dar_es_Salaam_Port_to_Kolwezi", "start": "Dar es Salaam", "end": "Kolwezi", "coords": [[-6.8235, 39.2695], [-7.0, 31.0], [-9.0, 28.0], [-10.7167, 25.4725]], "time": "7 days", "cost": 1500},
+        {"name": "Dar_es_Salaam_Port_to_Chambishi", "start": "Dar es Salaam", "end": "Chambishi", "coords": [[-6.8235, 39.2695], [-8.5, 33.5], [-10.5, 30.5], [-12.6328, 28.0539]], "time": "5 days", "cost": 1250},
     
 
 ]
 
     train_routes = [
 
-        {"name": "TAZARA_Railway", "coords": [[-6.7924, 39.2083], [-8.2833, 33.8331], [-15.3875, 28.3228]], "cost": 2000, "countries_crossed": "Tanzania, Zambia"},
-
-        {"name": "Benguela_Railway", "coords": [[-12.3646, 13.5304], [-12.0, 20.0], [-11.6692, 27.4823]], "cost": 1500, "countries_crossed": "Angola, Zambia"},
-
-        {"name": "Durb_to_chennai", "coords": [[-29.8587, 31.0218], [-30.00, 45.00], [-20.00, 65.00], [-5.00, 80.00], [10.00, 85.00], [13.08, 80.27]], "cost": 10000, "countries_crossed": "Angola, Zambia"},
-
-        {"name": "Shanghai_to_Dar", "coords": [[31.2304, 121.4737], [20.00, 100.00], [10.00, 80.00], [5.00, 55.00], [-6.7924, 39.2083]], "cost": 12500, "countries_crossed": "China, Sri Lanka, Kenya, Tanzania"},
-   
-        {"name": "Durban_to_Shanghai", "coords": [[-29.8587, 31.0218], [-20.00, 60.00], [-10.00, 80.00], [5.00, 95.00], [31.2304, 121.4737]], "cost": 12000, "countries_crossed": "Mozambique, Madagascar, India, China"},
-
-        {"name": "Durban_to_Rotterdam", "coords": [[-29.8587, 31.0218], [-20.00, 20.00], [-10.00, 0.00], [0.00, -10.00], [20.00, -15.00], [40.00, -5.00], [51.9225, 4.4792]], "cost": 9000, "countries_crossed": "Mozambique, Angola, Ghana, Spain, Netherlands"},
-
-        {"name": "Durban_to_Singapore", "coords": [[-29.8587, 31.0218], [-20.00, 60.00], [-10.00, 85.00], [1.2644, 103.8407]], "cost": 11000, "countries_crossed": "Mozambique, Sri Lanka, Malaysia"},
-
-        {"name": "Durban_to_Dubai", "coords": [[-29.8587, 31.0218], [-20.00, 45.00], [-10.00, 60.00], [10.00, 70.00], [25.2780, 55.2792]], "cost": 9500, "countries_crossed": "Mozambique, Madagascar, India, UAE"},
-
-        {"name": "Durban_to_Hong_Kong", "coords": [[-29.8587, 31.0218], [-20.00, 60.00], [-10.00, 85.00], [5.00, 100.00], [22.3193, 114.1694]], "cost": 13000, "countries_crossed": "Mozambique, Sri Lanka, Philippines, China"},
-
-        {"name": "Dar_to_Singapore", "coords": [[-6.7924, 39.2083], [5.00, 55.00], [10.00, 75.00], [1.2644, 103.8407]], "cost": 10000, "countries_crossed": "Kenya, Sri Lanka, Malaysia"},
-
-        {"name": "Dar_to_Dubai", "coords": [[-6.7924, 39.2083], [10.00, 45.00], [15.00, 55.00], [25.2780, 55.2792]], "cost": 8500, "countries_crossed": "Somalia, Oman, UAE"},
-
-        {"name": "Dar_to_Hamburg", "coords": [[-6.7924, 39.2083], [10.00, 35.00], [20.00, 20.00], [40.00, 5.00], [53.5511, 9.9937]], "cost": 9500, "countries_crossed": "Kenya, Sudan, Egypt (Suez Canal), Italy, Germany"},
-
-        {"name": "Dar_to_New_York", "coords": [[-6.7924, 39.2083], [-10.00, 10.00], [0.00, -20.00], [10.00, -40.00], [40.6845, -74.0418]], "cost": 15000, "countries_crossed": "Mozambique, Ghana, Brazil, USA"},
-
-        {"name": "Shanghai_to_Durban", "coords": [[31.2304, 121.4737], [10.00, 95.00], [0.00, 80.00], [-10.00, 65.00], [-20.00, 45.00], [-29.8587, 31.0218]], "cost": 12500, "countries_crossed": "China, Sri Lanka, Madagascar, Mozambique, South Africa"},
-
-        {"name": "London_to_Durban", "coords": [[51.5074, -0.1278], [40.00, -5.00], [20.00, -10.00], [0.00, -15.00], [-10.00, -20.00], [-29.8587, 31.0218]], "cost": 8800, "countries_crossed": "UK, Spain, Ghana, Angola, South Africa"},
-
-        {"name": "Mumbai_to_Durban", "coords": [[19.0760, 72.8777], [10.00, 75.00], [0.00, 60.00], [-10.00, 45.00], [-29.8587, 31.0218]], "cost": 9900, "countries_crossed": "India, Sri Lanka, Madagascar, Mozambique, South Africa"},
-
-        {"name": "Singapore_to_Dar", "coords": [[1.2644, 103.8407], [5.00, 85.00], [10.00, 75.00], [0.00, 65.00], [-6.7924, 39.2083]], "cost": 9700, "countries_crossed": "Malaysia, Sri Lanka, Kenya, Tanzania"},
-
-        {"name": "Dubai_to_Dar", "coords": [[25.2780, 55.2792], [15.00, 50.00], [5.00, 40.00], [-6.7924, 39.2083]], "cost": 8500, "countries_crossed": "UAE, Somalia, Kenya, Tanzania"},
-
-        {"name": "New_York_to_Durban", "coords": [[40.6845, -74.0418], [10.00, -40.00], [0.00, -20.00], [-10.00, 5.00], [-29.8587, 31.0218]], "cost": 15500, "countries_crossed": "USA, Brazil, Ghana, Angola, South Africa"},
-
-        {"name": "Rotterdam_to_Durban", "coords": [[51.9225, 4.4792], [40.00, 5.00], [20.00, -5.00], [0.00, -10.00], [-10.00, -15.00], [-29.8587, 31.0218]], "cost": 8700, "countries_crossed": "Netherlands, Spain, Senegal, Angola, South Africa"},
-
-        {"name": "Tokyo_to_Durban", "coords": [[35.6895, 139.6917], [20.00, 120.00], [10.00, 90.00], [0.00, 65.00], [-10.00, 50.00], [-29.8587, 31.0218]], "cost": 14000, "countries_crossed": "Japan, Philippines, India, Madagascar, Mozambique, South Africa"},
-
-        {"name": "Los_Angeles_to_Durban", "coords": [[33.7405, -118.2619], [10.00, -80.00], [0.00, -60.00], [-10.00, -40.00], [-29.8587, 31.0218]], "cost": 17500, "countries_crossed": "USA, Panama, Brazil, Angola, South Africa"},
-
-        {"name": "Buenos_Aires_to_Durban", "coords": [[-34.6037, -58.3816], [-20.00, -30.00], [-10.00, 0.00], [-29.8587, 31.0218]], "cost": 10500, "countries_crossed": "Argentina, Brazil, Ghana, South Africa"},
-
-        {"name": "Durban_to_Manila",      "coords": [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [10.00, 90.00], [14.5995, 120.9842]], "cost": 12500, "countries_crossed": "Mozambique, Sri Lanka, Philippines"},
-
-        {"name": "Durban_to_Yokohama",    "coords": [[-29.8587, 31.0218], [-25.00, 70.00], [-10.00, 90.00], [5.00, 100.00], [35.4437, 139.6380]], "cost": 13000, "countries_crossed": "Madagascar, Sri Lanka, Japan"},
-
-        {"name": "Durban_to_Melbourne",   "coords": [[-29.8587, 31.0218], [-30.00, 80.00], [-35.00, 120.00], [-37.8142, 144.9632]], "cost": 14000, "countries_crossed": "Mozambique, Australia"},
-
-        {"name": "Durban_to_Vancouver",   "coords": [[-29.8587, 31.0218], [-20.00, 10.00], [0.00, -30.00], [20.00, -100.00], [49.2827, -123.1207]], "cost": 17000, "countries_crossed": "Mozambique, Panama, Canada"},
-
-        {"name": "Durban_to_Brisbane",    "coords": [[-29.8587, 31.0218], [-30.00, 85.00], [-35.00, 130.00], [-27.4679, 153.0281]], "cost": 13500, "countries_crossed": "South Africa, Madagascar, Australia"},
-
-        {"name": "Durban_to_Mumbai",      "coords": [[-29.8587, 31.0218], [-20.00, 55.00], [-10.00, 75.00], [19.0760, 72.8777]], "cost": 9500, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Buenos_Aires","coords": [[-29.8587, 31.0218], [-25.00, -30.00], [-34.6037, -58.3816]], "cost": 8900, "countries_crossed": "South Africa, Argentina"},
-
-        {"name": "Durban_to_Santos",      "coords": [[-29.8587, 31.0218], [-20.00, -10.00], [-10.00, -30.00], [-23.9618, -46.3322]], "cost": 9700, "countries_crossed": "Mozambique, Brazil"},
-
-        {"name": "Durban_to_Sydney",      "coords": [[-29.8587, 31.0218], [-30.00, 90.00], [-35.00, 130.00], [-33.8688, 151.2093]], "cost": 14500, "countries_crossed": "Mozambique, Australia"},
-
-        {"name": "Durban_to_Seattle",     "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, -20.00], [20.00, -130.00], [47.6062, -122.3321]], "cost": 17500, "countries_crossed": "Mozambique, Panama, USA"},
-
-        {"name": "Dar_to_Los_Angeles",   "coords": [[-6.7924, 39.2083], [10.00, -40.00], [0.00, -70.00], [20.00, -120.00], [33.7405, -118.2619]], "cost": 16500, "countries_crossed": "Tanzania, Brazil, Panama, USA"},
-
-        {"name": "Dar_to_Houston",       "coords": [[-6.7924, 39.2083], [0.00, -50.00], [20.00, -80.00], [29.7633, -95.3633]], "cost": 14000, "countries_crossed": "Tanzania, Brazil, Mexico, USA"},
-
-        {"name": "Dar_to_Vancouver",     "coords": [[-6.7924, 39.2083], [5.00, -60.00], [10.00, -120.00], [20.00, -140.00], [49.2827, -123.1207]], "cost": 17500, "countries_crossed": "Tanzania, Brazil, Mexico, Canada"},
-
-        {"name": "Dar_to_Melbourne",     "coords": [[-6.7924, 39.2083], [-20.00, 80.00], [-30.00, 100.00], [-37.8142, 144.9632]], "cost": 14500, "countries_crossed": "Tanzania, Madagascar, Australia"},
-
-        {"name": "Dar_to_Santos",        "coords": [[-6.7924, 39.2083], [-10.00, 20.00], [-20.00, -10.00], [-23.9618, -46.3322]], "cost": 12000, "countries_crossed": "Tanzania, Ghana, Brazil"},
-
-        {"name": "Dar_to_Buenos_Aires",  "coords": [[-6.7924, 39.2083], [-10.00, 10.00], [-20.00, -20.00], [-34.6037, -58.3816]], "cost": 11500, "countries_crossed": "Tanzania, Ghana, Argentina"},
-
-        {"name": "Dar_to_Singapore",     "coords": [[-6.7924, 39.2083], [5.00, 55.00], [10.00, 75.00], [1.2644, 103.8407]], "cost": 11000, "countries_crossed": "Kenya, Sri Lanka, Malaysia"},
-
-        {"name": "Dar_to_Hong_Kong",     "coords": [[-6.7924, 39.2083], [0.00, 80.00], [5.00, 100.00], [22.3193, 114.1694]], "cost": 13500, "countries_crossed": "Tanzania, Sri Lanka, Philippines, China"},
-
-        {"name": "Dar_to_Tokyo",         "coords": [[-6.7924, 39.2083], [0.00, 85.00], [5.00, 100.00], [35.6895, 139.6917]], "cost": 14000, "countries_crossed": "Tanzania, Sri Lanka, Japan"},
-
-        {"name": "Dar_to_Sydney",        "coords": [[-6.7924, 39.2083], [-20.00, 90.00], [-30.00, 120.00], [-33.8688, 151.2093]], "cost": 15500, "countries_crossed": "Tanzania, Madagascar, Australia"},
-
-        {"name": "Shanghai_to_Dar",      "coords": [[31.2304, 121.4737], [20.00, 100.00], [10.00, 80.00], [5.00, 55.00], [-6.7924, 39.2083]], "cost": 12500, "countries_crossed": "China, Sri Lanka, Kenya, Tanzania"},
-
-        {"name": "Rotterdam_to_Dar",     "coords": [[51.9225, 4.4792], [40.00, 10.00], [20.00, 30.00], [10.00, 40.00], [-6.7924, 39.2083]], "cost": 8700, "countries_crossed": "Netherlands, Spain, Morocco, Sudan, Tanzania"},
-
-        {"name": "Mumbai_to_Dar",        "coords": [[19.0760, 72.8777], [10.00, 75.00], [5.00, 55.00], [-6.7924, 39.2083]], "cost": 9700, "countries_crossed": "India, Sri Lanka, Tanzania"},
-
-        {"name": "Singapore_to_Dar",     "coords": [[1.2644, 103.8407], [5.00, 85.00], [10.00, 75.00], [0.00, 65.00], [-6.7924, 39.2083]], "cost": 9900, "countries_crossed": "Malaysia, Sri Lanka, Kenya, Tanzania"},
-
-        {"name": "Dubai_to_Dar",         "coords": [[25.2780, 55.2792], [15.00, 50.00], [5.00, 40.00], [-6.7924, 39.2083]], "cost": 8700, "countries_crossed": "UAE, Somalia, Kenya, Tanzania"},
-
-        {"name": "New_York_to_Dar",      "coords": [[40.6845, -74.0418], [10.00, -40.00], [0.00, -20.00], [-10.00, 10.00], [-6.7924, 39.2083]], "cost": 16000, "countries_crossed": "USA, Brazil, Ghana, Kenya, Tanzania"},
-
-        {"name": "Los_Angeles_to_Dar",   "coords": [[33.7405, -118.2619], [0.00, -80.00], [-10.00, -40.00], [-6.7924, 39.2083]], "cost": 17500, "countries_crossed": "USA, Panama, Brazil, Tanzania"},
-
-        {"name": "Santos_to_Dar",        "coords": [[-23.9618, -46.3322], [-10.00, -30.00], [-5.00, 0.00], [-6.7924, 39.2083]], "cost": 11500, "countries_crossed": "Brazil, Ghana, Kenya, Tanzania"},
-
-        {"name": "Tokyo_to_Dar",         "coords": [[35.6895, 139.6917], [20.00, 120.00], [10.00, 90.00], [0.00, 65.00], [-6.7924, 39.2083]], "cost": 14000, "countries_crossed": "Japan, Philippines, India, Tanzania"},
-
-        {"name": "Cape_Town_to_Dar",     "coords": [[-33.9249, 18.4241], [-20.00, 30.00], [-6.7924, 39.2083]], "cost": 7500, "countries_crossed": "South Africa, Mozambique, Tanzania"},
-
-        {"name": "Sydney_to_Dar",        "coords": [[-33.8688, 151.2093], [-30.00, 120.00], [-20.00, 80.00], [-6.7924, 39.2083]], "cost": 15500, "countries_crossed": "Australia, Madagascar, Tanzania"},
-
-        {"name": "Durban_to_Yantian",       "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [22.5707, 114.2517]], "cost": 14000, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Alexandria",    "coords": [[-29.8587, 31.0218], [-10.00, 30.00], [0.00, 40.00], [10.00, 30.00], [31.2001, 29.9187]], "cost": 11500, "countries_crossed": "Mozambique, Sudan, Egypt"},
-
-        {"name": "Durban_to_Tuticorin",     "coords": [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [8.7642, 78.1348]], "cost": 12700, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Ennore",        "coords": [[-29.8587, 31.0218], [-20.00, 70.00], [-5.00, 85.00], [13.2383, 80.3194]], "cost": 12900, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Nhava_Sheva",   "coords": [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [18.9467, 72.9456]], "cost": 12400, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Hakata",        "coords": [[-29.8587, 31.0218], [-20.00, 80.00], [-5.00, 100.00], [33.6056, 130.3925]], "cost": 14700, "countries_crossed": "Mozambique, Sri Lanka, Japan"},
-
-        {"name": "Durban_to_Jeddah",        "coords": [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 39.1925], [21.4858, 39.1925]], "cost": 11800, "countries_crossed": "Mozambique, Sudan, Saudi Arabia"},
-
-        {"name": "Durban_to_Keelung",       "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [25.1283, 121.7414]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, Taiwan"},
-
-        {"name": "Durban_to_Taichung_City", "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [24.1500, 120.6750]], "cost": 13700, "countries_crossed": "Mozambique, Sri Lanka, Taiwan"},
-
-        {"name": "Durban_to_Laem_Chabang", "coords": [[-29.8587, 31.0218], [-20.00, 80.00], [-5.00, 95.00], [13.0826, 100.8830]], "cost": 12800, "countries_crossed": "Mozambique, Sri Lanka, Thailand"},
-
-        {"name": "Durban_to_Keelung", "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [25.1283, 121.7414]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, Taiwan"},
-
-        {"name": "Durban_to_Taichung_City", "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [24.1500, 120.6750]], "cost": 13700, "countries_crossed": "Mozambique, Sri Lanka, Taiwan"},
-
-        {"name": "Durban_to_Hai_Phong", "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [20.8651, 106.6839]], "cost": 13200, "countries_crossed": "Mozambique, Sri Lanka, Vietnam"},
-
-        {"name": "Durban_to_Huangpu", "coords": [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [23.1168, 113.4833]], "cost": 14000, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-
-        {"name": "Durban_to_Wuhu",             "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [31.3373, 118.3748]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Wuzhou",           "coords": [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [23.4833, 111.3167]], "cost": 13700, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Yantai",           "coords": [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 115.00], [37.5333, 121.4000]], "cost": 15000, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Yichang",          "coords": [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [30.7144, 111.2847]], "cost": 13900, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Zhangjiagang",     "coords": [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 110.00], [31.8656, 120.5381]], "cost": 14200, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Zhanjiang",        "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 105.00], [21.1962, 110.4039]], "cost": 13600, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Zhapu",            "coords": [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 110.00], [30.5146, 120.9750]], "cost": 14400, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Zhuhai",           "coords": [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [22.2769, 113.5678]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Abu_Dhabi",        "coords": [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 54.4722], [24.4180, 54.4722]], "cost": 11800, "countries_crossed": "Mozambique, Sudan, UAE"},
-
-        {"name": "Durban_to_Ras_Al_Khaimah",   "coords": [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 55.9432], [25.7895, 55.9432]], "cost": 12000, "countries_crossed": "Mozambique, Sudan, UAE"},
-
-        {"name": "Durban_to_Dalian",           "coords": [[-29.8587, 31.0218], [-20.00, 100.00], [-5.00, 120.00], [38.9915, 121.6413]], "cost": 15200, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Hubei",            "coords": [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [30.5844, 114.2986]], "cost": 14000, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Rizhao",           "coords": [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 115.00], [35.4275, 119.5539]], "cost": 14500, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Tianjin",          "coords": [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 115.00], [39.0416, 117.7416]], "cost": 14700, "countries_crossed": "Mozambique, Sri Lanka, China"},
-
-        {"name": "Durban_to_Jakarta",          "coords": [[-29.8587, 31.0218], [-25.00, 80.00], [-10.00, 105.00], [-6.1275, 106.8780]], "cost": 13500, "countries_crossed": "Mozambique, Sri Lanka, Indonesia"},
-
-        {"name": "Durban_to_Kolkata",          "coords": [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 85.00], [22.5411, 88.3378]], "cost": 12500, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Hazira",           "coords": [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [21.1167, 72.6500]], "cost": 12200, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Mundra",           "coords": [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [22.8391, 69.7219]], "cost": 12100, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Visakhapatnam",    "coords": [[-29.8587, 31.0218], [-20.00, 70.00], [-5.00, 85.00], [17.7041, 83.3124]], "cost": 12600, "countries_crossed": "Mozambique, Sri Lanka, India"},
-
-        {"name": "Durban_to_Yamaguchi",        "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [34.1860, 131.4706]], "cost": 14800, "countries_crossed": "Mozambique, Sri Lanka, Japan"},
-
-        {"name": "Durban_to_Colombo",          "coords": [[-29.8587, 31.0218], [-5.00, 79.8612], [6.9271, 79.8612]], "cost": 9500, "countries_crossed": "Mozambique, Sri Lanka"},
-
-        {"name": "Durban_to_Penang",           "coords": [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [5.4141, 100.3288]], "cost": 13000, "countries_crossed": "Mozambique, Sri Lanka, Malaysia"},
-
-        {"name": "Durban_to_Istanbul",               "coords": [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 35.00], [41.0082, 28.9784]], "cost": 12500, "countries_crossed": "Mozambique, Sudan, Egypt, Turkey"},
-
-        {"name": "Durban_to_Antwerp",                "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [20.00, 5.00], [51.2605, 4.3706]], "cost": 13000, "countries_crossed": "Mozambique, Ghana, Spain, Belgium"},
-
-        {"name": "Durban_to_Bremerhaven_HB",         "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [20.00, 5.00], [53.5397, 8.5765]], "cost": 13200, "countries_crossed": "Mozambique, Ghana, Spain, Germany"},
-
-        {"name": "Durban_to_Hamburg_HH",             "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [20.00, 5.00], [53.5511, 9.9937]], "cost": 13400, "countries_crossed": "Mozambique, Ghana, Spain, Germany"},
-
-        {"name": "Durban_to_Algeciras",              "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [36.1260, -5.4505]], "cost": 11800, "countries_crossed": "Mozambique, Ghana, Spain"},
-
-        {"name": "Durban_to_Barcelona",              "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [41.3543, 2.1589]], "cost": 12100, "countries_crossed": "Mozambique, Ghana, Spain"},
-
-        {"name": "Durban_to_Bilbao",                 "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [43.3053, -3.0082]], "cost": 12250, "countries_crossed": "Mozambique, Ghana, Spain"},
-
-        {"name": "Durban_to_Vigo",                   "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [42.2406, -8.7207]], "cost": 12300, "countries_crossed": "Mozambique, Ghana, Spain"},
-
-        {"name": "Durban_to_Valencia",               "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [39.4667, -0.3750]], "cost": 12000, "countries_crossed": "Mozambique, Ghana, Spain"},
-
-        {"name": "Durban_to_Le_Havre_Seine_Maritime","coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [49.4938, 0.1077]], "cost": 12800, "countries_crossed": "Mozambique, Ghana, Spain, France"},
-
-        {"name": "Durban_to_Immingham_Lincolnshire", "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [53.6126, -0.1901]], "cost": 12900, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
-
-        {"name": "Durban_to_London_Gateway_Port_Essex", "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [51.5145, 0.4170]], "cost": 12700, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
-
-        {"name": "Durban_to_Kristiansand_S",         "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [58.1444, 7.9948]], "cost": 14000, "countries_crossed": "Mozambique, Ghana, Spain, Norway"},
-
-        {"name": "Durban_to_Gdynia",                 "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [54.5189, 18.5305]], "cost": 14200, "countries_crossed": "Mozambique, Ghana, Spain, Poland"},
-
-        {"name": "Durban_to_Casablanca",             "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, -10.00], [33.5994, -7.6200]], "cost": 11700, "countries_crossed": "Mozambique, Ghana, Morocco"},
-
-        {"name": "Durban_to_Bergen",                 "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [60.3913, 5.3221]], "cost": 14400, "countries_crossed": "Mozambique, Ghana, Spain, Norway"},
-
-        {"name": "Durban_to_Oslo",                   "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [59.9139, 10.7522]], "cost": 14500, "countries_crossed": "Mozambique, Ghana, Spain, Norway"},
-
-        {"name": "Durban_to_Leixoes",                "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, -5.00], [41.1850, -8.7089]], "cost": 11850, "countries_crossed": "Mozambique, Ghana, Portugal"},
-
-        {"name": "Durban_to_Constanta",              "coords": [[-29.8587, 31.0218], [-10.00, 40.00], [0.00, 30.00], [44.1747, 28.6383]], "cost": 12600, "countries_crossed": "Mozambique, Sudan, Egypt, Romania"},
-
-        {"name": "Durban_to_Gothenburg",             "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [57.7089, 11.9746]], "cost": 14700, "countries_crossed": "Mozambique, Ghana, Spain, Sweden"},
-
-        {"name": "Durban_to_Stockholm",              "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [59.3293, 18.0686]], "cost": 14850, "countries_crossed": "Mozambique, Ghana, Spain, Sweden"},
-
-        {"name": "Durban_to_Gemlik",                 "coords": [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [40.4292, 29.1628]], "cost": 12400, "countries_crossed": "Mozambique, Sudan, Egypt, Turkey"},
-
-        {"name": "Durban_to_Kotka",                "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [60.4661, 26.9458]], "cost": 14500, "countries_crossed": "Mozambique, Ghana, Spain, Finland"},
-
-        {"name": "Durban_to_Rauma",                "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [61.1286, 21.5053]], "cost": 14600, "countries_crossed": "Mozambique, Ghana, Spain, Finland"},
-
-        {"name": "Durban_to_Belfast",              "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [54.6079, -5.9264]], "cost": 13200, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
-
-        {"name": "Durban_to_Grangemouth_Falkirk",  "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [56.0201, -3.7194]], "cost": 13500, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
-
-        {"name": "Durban_to_South_Shields_Tyne_and_Wear", "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [54.9986, -1.4325]], "cost": 13400, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
-
-        {"name": "Durban_to_Piraeus",              "coords": [[-29.8587, 31.0218], [-10.00, 30.00], [0.00, 20.00], [37.9421, 23.6465]], "cost": 12500, "countries_crossed": "Mozambique, Egypt, Greece"},
-
-        {"name": "Durban_to_Thessaloniki",         "coords": [[-29.8587, 31.0218], [-10.00, 30.00], [0.00, 20.00], [40.6401, 22.9444]], "cost": 12600, "countries_crossed": "Mozambique, Egypt, Greece"},
-
-        {"name": "Durban_to_Dublin",               "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [53.3478, -6.2588]], "cost": 13100, "countries_crossed": "Mozambique, Ghana, Spain, Ireland"},
-
-        {"name": "Durban_to_Cork",                 "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [51.8979, -8.4655]], "cost": 13000, "countries_crossed": "Mozambique, Ghana, Spain, Ireland"},
-
-        {"name": "Durban_to_Livorno",              "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [43.5485, 10.3106]], "cost": 12300, "countries_crossed": "Mozambique, Ghana, Spain, Italy"},
-
-        {"name": "Durban_to_Klaipeda",             "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [55.7033, 21.1443]], "cost": 14000, "countries_crossed": "Mozambique, Ghana, Spain, Lithuania"},
-
-        {"name": "Durban_to_Riga",                 "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [56.9489, 24.1064]], "cost": 14200, "countries_crossed": "Mozambique, Ghana, Spain, Latvia"},
-
-        {"name": "Durban_to_Bremerhaven_HB",       "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [53.5397, 8.5765]], "cost": 13300, "countries_crossed": "Mozambique, Ghana, Spain, Germany"},
-
-        {"name": "Durban_to_Aarhus",               "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [56.1496, 10.2134]], "cost": 13700, "countries_crossed": "Mozambique, Ghana, Spain, Denmark"},
-
-        {"name": "Durban_to_Copenhagen",           "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [55.6761, 12.5683]], "cost": 13800, "countries_crossed": "Mozambique, Ghana, Spain, Denmark"},
-
-        {"name": "Durban_to_Fredericia",           "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [55.5625, 9.7519]], "cost": 13600, "countries_crossed": "Mozambique, Ghana, Spain, Denmark"},
-
-        {"name": "Durban_to_Tallinn",              "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [59.4370, 24.7536]], "cost": 14300, "countries_crossed": "Mozambique, Ghana, Spain, Estonia"},
-
-        {"name": "Durban_to_Helsinki",             "coords": [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [60.1695, 24.9354]], "cost": 14400, "countries_crossed": "Mozambique, Ghana, Spain, Finland"},
-
-
-        {"name": "Durban_to_Antwerp", "coords": [[-29.8587, 31.0218], [-10.00, -15.00], [0.00, -5.00], [51.2602, 4.3974]], "cost": 13600, "countries_crossed": "Mozambique, Ghana, Spain, Belgium"},
+    {"name": "Dar_es_Salaam_to_Lusaka", "start": "Dar es Salaam", "end": "Lusaka", "coords": [[-6.7924, 39.2083], [-8.2833, 33.8331], [-15.3875, 28.3228]], "cost": 2000, "countries_crossed": "Tanzania, Zambia"},
     
-        {"name": "Durban_to_Dublin", "coords": [[-29.8587, 31.0218], [-10.00, -15.00], [5.00, -10.00], [53.3498, -6.2603]], "cost": 14300, "countries_crossed": "Mozambique, Ghana, Spain, Ireland"},
-    
-        {"name": "Durban_to_Liverpool", "coords": [[-29.8587, 31.0218], [-10.00, -15.00], [5.00, -5.00], [53.4084, -2.9916]], "cost": 14400, "countries_crossed": "Mozambique, Ghana, Spain, United Kingdom"},
-    
-        {"name": "Durban_to_Rotterdam", "coords": [[-29.8587, 31.0218], [-10.00, -15.00], [0.00, -5.00], [51.9225, 4.4792]], "cost": 13750, "countries_crossed": "Mozambique, Ghana, Spain, Netherlands"},
-    
-        {"name": "Durban_to_Le_Havre", "coords": [[-29.8587, 31.0218], [-10.00, -15.00], [0.00, 0.00], [49.4944, 0.1079]], "cost": 13900, "countries_crossed": "Mozambique, Ghana, Spain, France"},
-    
-        {"name": "Durban_to_London_Gateway", "coords": [[-29.8587, 31.0218], [-10.00, -15.00], [5.00, -10.00], [51.502, 0.507]], "cost": 14100, "countries_crossed": "Mozambique, Ghana, Spain, United Kingdom"},
-    
-        {"name": "Durban_to_Ashdod", "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [5.00, 20.00], [31.8054, 34.6553]], "cost": 12800, "countries_crossed": "Mozambique, Ghana, Spain, Israel"},
-    
-        {"name": "Durban_to_Barcelona", "coords": [[-29.8587, 31.0218], [-10.00, 0.00], [0.00, 5.00], [41.3851, 2.1734]], "cost": 13000, "countries_crossed": "Mozambique, Ghana, Spain"},
-     
-        {"name": "Durban_to_Cartagena_Spain", "coords": [[-29.8587, 31.0218], [-10.00, -10.00], [0.00, 5.00], [37.6257, -0.9966]], "cost": 12950, "countries_crossed": "Mozambique, Ghana, Spain"},
-    
-        {"name": "Durban_to_Gijon", "coords": [[-29.8587, 31.0218], [-10.00, -10.00], [0.00, 5.00], [43.5322, -5.6611]], "cost": 13100, "countries_crossed": "Mozambique, Ghana, Spain"},
-    
-        {"name": "Durban_to_Haifa", "coords": [[-29.8587, 31.0218], [-10.00, 10.00], [5.00, 15.00], [32.794, 34.9896]], "cost": 13050, "countries_crossed": "Mozambique, Ghana, Spain, Israel"},
-    
-        {"name": "Durban_to_Genoa_Leghorn", "coords": [[-29.8587, 31.0218], [-10.00, 0.00], [5.00, 10.00], [44.4056, 8.9463]], "cost": 13200, "countries_crossed": "Mozambique, Ghana, Spain, Italy"},
-    
-        {"name": "Durban_to_Koper", "coords": [[-29.8587, 31.0218], [-10.00, -5.00], [5.00, 0.00], [45.5481, 13.7302]], "cost": 13300, "countries_crossed": "Mozambique, Ghana, Spain, Slovenia"},
-    
-        {"name": "Durban_to_Alexandria_Old_Port", "coords": [[-29.8587, 31.0218], [-10.00, 5.00], [5.00, 15.00], [31.2001, 29.9187]], "cost": 12700, "countries_crossed": "Mozambique, Ghana, Spain, Egypt"},
-    
-        {"name": "Durban_to_Alexandria_El_Dekheila", "coords": [[-29.8587, 31.0218], [-10.00, 5.00], [5.00, 15.00], [31.1858, 29.8639]], "cost": 12700, "countries_crossed": "Mozambique, Ghana, Spain, Egypt"},
-    
-        {"name": "Durban_to_Naples", "coords": [[-29.8587, 31.0218], [-10.00, -5.00], [5.00, 5.00], [40.8533, 14.3056]], "cost": 13150, "countries_crossed": "Mozambique, Ghana, Spain, Italy"}
+    {"name": "Benguela_to_Lubumbashi", "start": "Benguela", "end": "Lubumbashi", "coords":  [[-12.3646, 13.5304], [-12.0, 20.0], [-11.6692, 27.4823]], "cost": 1500, "countries_crossed": "Angola, Zambia"},
 
+    {"name": "Durban_to_chennai", "start": "Durban", "end": "Chennai", "coords":  [[-29.8587, 31.0218], [-30.00, 45.00], [-20.00, 65.00], [-5.00, 80.00], [10.00, 85.00], [13.08, 80.27]], "cost": 10000, "countries_crossed": "Angola, Zambia"},
+
+    {"name": "Shanghai_to_Dar_es_Salaam", "start": "Shanghai", "end": "Dar es Salaam", "coords":  [[31.2304, 121.4737], [20.00, 100.00], [10.00, 80.00], [5.00, 55.00], [-6.7924, 39.2083]], "cost": 12500, "countries_crossed": "China, Sri Lanka, Kenya, Tanzania"},
+
+    {"name": "Durban_to_Shanghai", "start": "Durban", "end": "Shanghai", "coords":  [[-29.8587, 31.0218], [-20.00, 60.00], [-10.00, 80.00], [5.00, 95.00], [31.2304, 121.4737]], "cost": 12000, "countries_crossed": "Mozambique, Madagascar, India, China"},
+
+    {"name": "Durban_to_Rotterdam", "start": "Durban", "end": "Rotterdam", "coords":  [[-29.8587, 31.0218], [-20.00, 20.00], [-10.00, 0.00], [0.00, -10.00], [20.00, -15.00], [40.00, -5.00], [51.9225, 4.4792]], "cost": 9000, "countries_crossed": "Mozambique, Angola, Ghana, Spain, Netherlands"},
+
+    {"name": "Durban_to_Singapore", "start": "Durban", "end": "Singapore", "coords":  [[-29.8587, 31.0218], [-20.00, 60.00], [-10.00, 85.00], [1.2644, 103.8407]], "cost": 11000, "countries_crossed": "Mozambique, Sri Lanka, Malaysia"},
+
+    {"name": "Durban_to_Dubai", "start": "Durban", "end": "Dubai", "coords":  [[-29.8587, 31.0218], [-20.00, 45.00], [-10.00, 60.00], [10.00, 70.00], [25.2780, 55.2792]], "cost": 9500, "countries_crossed": "Mozambique, Madagascar, India, UAE"},
+
+    {"name": "Durban_to_Hong_Kong", "start": "Durban", "end": "Hong Kong", "coords":  [[-29.8587, 31.0218], [-20.00, 60.00], [-10.00, 85.00], [5.00, 100.00], [22.3193, 114.1694]], "cost": 13000, "countries_crossed": "Mozambique, Sri Lanka, Philippines, China"},
+
+    {"name": "Dar_es_Salaam_to_Singapore", "start": "Dar es Salaam", "end": "Singapore", "coords":  [[-6.7924, 39.2083], [5.00, 55.00], [10.00, 75.00], [1.2644, 103.8407]], "cost": 10000, "countries_crossed": "Kenya, Sri Lanka, Malaysia"},
+
+    {"name": "Dar_es_Salaam_to_Dubai", "start": "Dar es Salaam", "end": "Dubai", "coords":  [[-6.7924, 39.2083], [10.00, 45.00], [15.00, 55.00], [25.2780, 55.2792]], "cost": 8500, "countries_crossed": "Somalia, Oman, UAE"},
+
+    {"name": "Dar_es_Salaam_to_Hamburg", "start": "Dar es Salaam", "end": "Hamburg", "coords":  [[-6.7924, 39.2083], [10.00, 35.00], [20.00, 20.00], [40.00, 5.00], [53.5511, 9.9937]], "cost": 9500, "countries_crossed": "Kenya, Sudan, Egypt (Suez Canal), Italy, Germany"},
+
+    {"name": "Dar_es_Salaam_to_New_York", "start": "Dar es Salaam", "end": "New York", "coords":  [[-6.7924, 39.2083], [-10.00, 10.00], [0.00, -20.00], [10.00, -40.00], [40.6845, -74.0418]], "cost": 15000, "countries_crossed": "Mozambique, Ghana, Brazil, USA"},
+
+    {"name": "Shanghai_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[31.2304, 121.4737], [10.00, 95.00], [0.00, 80.00], [-10.00, 65.00], [-20.00, 45.00], [-29.8587, 31.0218]], "cost": 12500, "countries_crossed": "China, Sri Lanka, Madagascar, Mozambique, South Africa"},
+
+    {"name": "London_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[51.5074, -0.1278], [40.00, -5.00], [20.00, -10.00], [0.00, -15.00], [-10.00, -20.00], [-29.8587, 31.0218]], "cost": 8800, "countries_crossed": "UK, Spain, Ghana, Angola, South Africa"},
+
+    {"name": "Mumbai_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[19.0760, 72.8777], [10.00, 75.00], [0.00, 60.00], [-10.00, 45.00], [-29.8587, 31.0218]], "cost": 9900, "countries_crossed": "India, Sri Lanka, Madagascar, Mozambique, South Africa"},
+
+    {"name": "Singapore_to_Dar_es_Salaam", "start": "Singapore", "end": "Chambishi", "coords":  [[1.2644, 103.8407], [5.00, 85.00], [10.00, 75.00], [0.00, 65.00], [-6.7924, 39.2083]], "cost": 9700, "countries_crossed": "Malaysia, Sri Lanka, Kenya, Tanzania"},
+
+    {"name": "Dubai_to_Dar_es_Salaam", "start": "Shanghai", "end": "Chambishi", "coords":  [[25.2780, 55.2792], [15.00, 50.00], [5.00, 40.00], [-6.7924, 39.2083]], "cost": 8500, "countries_crossed": "UAE, Somalia, Kenya, Tanzania"},
+
+    {"name": "New_York_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[40.6845, -74.0418], [10.00, -40.00], [0.00, -20.00], [-10.00, 5.00], [-29.8587, 31.0218]], "cost": 15500, "countries_crossed": "USA, Brazil, Ghana, Angola, South Africa"},
+
+    {"name": "Rotterdam_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[51.9225, 4.4792], [40.00, 5.00], [20.00, -5.00], [0.00, -10.00], [-10.00, -15.00], [-29.8587, 31.0218]], "cost": 8700, "countries_crossed": "Netherlands, Spain, Senegal, Angola, South Africa"},
+
+    {"name": "Tokyo_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[35.6895, 139.6917], [20.00, 120.00], [10.00, 90.00], [0.00, 65.00], [-10.00, 50.00], [-29.8587, 31.0218]], "cost": 14000, "countries_crossed": "Japan, Philippines, India, Madagascar, Mozambique, South Africa"},
+
+    {"name": "Los_Angeles_to_Durban", "start": "Shanghai", "end": "Durban", "coords":  [[33.7405, -118.2619], [10.00, -80.00], [0.00, -60.00], [-10.00, -40.00], [-29.8587, 31.0218]], "cost": 17500, "countries_crossed": "USA, Panama, Brazil, Angola, South Africa"},
+
+    {"name": "Buenos_Aires_to_Durban", "start": "Buenos Aires", "end": "Durban", "coords":  [[-34.6037, -58.3816], [-20.00, -30.00], [-10.00, 0.00], [-29.8587, 31.0218]], "cost": 10500, "countries_crossed": "Argentina, Brazil, Ghana, South Africa"},
+
+    {"name": "Durban_to_Manila",      "start": "Durban", "end": "Manila", "coords":  [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [10.00, 90.00], [14.5995, 120.9842]], "cost": 12500, "countries_crossed": "Mozambique, Sri Lanka, Philippines"},
+    
+    {"name": "Durban_to_Yokohama",    "start": "Durban", "end": "Yokohama", "coords":  [[-29.8587, 31.0218], [-25.00, 70.00], [-10.00, 90.00], [5.00, 100.00], [35.4437, 139.6380]], "cost": 13000, "countries_crossed": "Madagascar, Sri Lanka, Japan"},
+
+    {"name": "Durban_to_Melbourne",   "start": "Durban", "end": "Melbourne", "coords":  [[-29.8587, 31.0218], [-30.00, 80.00], [-35.00, 120.00], [-37.8142, 144.9632]], "cost": 14000, "countries_crossed": "Mozambique, Australia"},
+
+    {"name": "Durban_to_Vancouver",   "start": "Durban", "end": "Vancouver", "coords":  [[-29.8587, 31.0218], [-20.00, 10.00], [0.00, -30.00], [20.00, -100.00], [49.2827, -123.1207]], "cost": 17000, "countries_crossed": "Mozambique, Panama, Canada"},
+
+    {"name": "Durban_to_Brisbane",    "start": "Durban", "end": "Brisbane", "coords":  [[-29.8587, 31.0218], [-30.00, 85.00], [-35.00, 130.00], [-27.4679, 153.0281]], "cost": 13500, "countries_crossed": "South Africa, Madagascar, Australia"},
+
+    {"name": "Durban_to_Mumbai",      "start": "Durban", "end": "Mumbai", "coords":  [[-29.8587, 31.0218], [-20.00, 55.00], [-10.00, 75.00], [19.0760, 72.8777]], "cost": 9500, "countries_crossed": "Mozambique, Sri Lanka, India"},
+
+    {"name": "Durban_to_Buenos_Aires","start": "Durban", "end": "Buenos Aires", "coords":  [[-29.8587, 31.0218], [-25.00, -30.00], [-34.6037, -58.3816]], "cost": 8900, "countries_crossed": "South Africa, Argentina"},
+
+    {"name": "Durban_to_Santos",      "start": "Durban", "end": "Santos", "coords":  [[-29.8587, 31.0218], [-20.00, -10.00], [-10.00, -30.00], [-23.9618, -46.3322]], "cost": 9700, "countries_crossed": "Mozambique, Brazil"},
+
+    {"name": "Durban_to_Sydney",      "start": "Durban", "end": "Sydney", "coords":  [[-29.8587, 31.0218], [-30.00, 90.00], [-35.00, 130.00], [-33.8688, 151.2093]], "cost": 14500, "countries_crossed": "Mozambique, Australia"},
+
+    {"name": "Durban_to_Seattle",     "start": "Durban", "end": "Seattle", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, -20.00], [20.00, -130.00], [47.6062, -122.3321]], "cost": 17500, "countries_crossed": "Mozambique, Panama, USA"},
+
+    {"name": "Dar_es_Salaam_to_Los_Angeles",   "start": "Dar es Salaam", "end": "Los Angeles", "coords":  [[-6.7924, 39.2083], [10.00, -40.00], [0.00, -70.00], [20.00, -120.00], [33.7405, -118.2619]], "cost": 16500, "countries_crossed": "Tanzania, Brazil, Panama, USA"},
+
+    {"name": "Dar_es_Salaam_to_Houston",       "start": "Dar es Salaam", "end": "Houston", "coords":  [[-6.7924, 39.2083], [0.00, -50.00], [20.00, -80.00], [29.7633, -95.3633]], "cost": 14000, "countries_crossed": "Tanzania, Brazil, Mexico, USA"},
+
+    {"name": "Dar_es_Salaam_to_Vancouver",     "start": "Dar es Salaam", "end": "Vancouver", "coords":  [[-6.7924, 39.2083], [5.00, -60.00], [10.00, -120.00], [20.00, -140.00], [49.2827, -123.1207]], "cost": 17500, "countries_crossed": "Tanzania, Brazil, Mexico, Canada"},
+
+    {"name": "Dar_es_Salaam_to_Melbourne",     "start": "Dar es Salaam", "end": "Melbourne", "coords":  [[-6.7924, 39.2083], [-20.00, 80.00], [-30.00, 100.00], [-37.8142, 144.9632]], "cost": 14500, "countries_crossed": "Tanzania, Madagascar, Australia"},
+
+    {"name": "Dar_es_Salaam_to_Santos",        "start": "Dar es Salaam", "end": "Santos", "coords":  [[-6.7924, 39.2083], [-10.00, 20.00], [-20.00, -10.00], [-23.9618, -46.3322]], "cost": 12000, "countries_crossed": "Tanzania, Ghana, Brazil"},
+
+    {"name": "Dar_es_Salaam_to_Buenos_Aires",  "start": "Dar es Salaam", "end": "Buenos Aires", "coords":  [[-6.7924, 39.2083], [-10.00, 10.00], [-20.00, -20.00], [-34.6037, -58.3816]], "cost": 11500, "countries_crossed": "Tanzania, Ghana, Argentina"},
+
+    {"name": "Dar_es_Salaam_to_Singapore",     "start": "Dar es Salaam", "end": "Singapore", "coords":  [[-6.7924, 39.2083], [5.00, 55.00], [10.00, 75.00], [1.2644, 103.8407]], "cost": 11000, "countries_crossed": "Kenya, Sri Lanka, Malaysia"},
+
+    {"name": "Dar_es_Salaam_to_Hong_Kong",     "start": "Dar es Salaam", "end": "Hong Kong", "coords":  [[-6.7924, 39.2083], [0.00, 80.00], [5.00, 100.00], [22.3193, 114.1694]], "cost": 13500, "countries_crossed": "Tanzania, Sri Lanka, Philippines, China"},
+
+    {"name": "Dar_es_Salaam_to_Tokyo",         "start": "Dar es Salaam", "end": "Tokyo", "coords":  [[-6.7924, 39.2083], [0.00, 85.00], [5.00, 100.00], [35.6895, 139.6917]], "cost": 14000, "countries_crossed": "Tanzania, Sri Lanka, Japan"},
+
+    {"name": "Dar_es_Salaam_to_Sydney",        "start": "Dar es Salaam", "end": "Sydney", "coords":  [[-6.7924, 39.2083], [-20.00, 90.00], [-30.00, 120.00], [-33.8688, 151.2093]], "cost": 15500, "countries_crossed": "Tanzania, Madagascar, Australia"},
+
+    {"name": "Shanghai_to_Dar_es_Salaam",      "start": "Shanghai", "end": "Dar_es_Salaam", "coords":  [[31.2304, 121.4737], [20.00, 100.00], [10.00, 80.00], [5.00, 55.00], [-6.7924, 39.2083]], "cost": 12500, "countries_crossed": "China, Sri Lanka, Kenya, Tanzania"},
+
+    {"name": "Rotterdam_to_Dar_es_Salaam", "start": "Rotterdam", "end": "Dar es Salaam", "coords": [[51.9225, 4.4792], [40.00, 10.00], [20.00, 30.00], [10.00, 40.00], [-6.7924, 39.2083]], "cost": 8700, "countries_crossed": "Netherlands, Spain, Morocco, Sudan, Tanzania"},
+
+    {"name": "Mumbai_to_Dar_es_Salaam", "start": "Mumbai", "end": "Dar es Salaam", "coords": [[19.0760, 72.8777], [10.00, 75.00], [5.00, 55.00], [-6.7924, 39.2083]], "cost": 9700, "countries_crossed": "India, Sri Lanka, Tanzania"},
+    
+    {"name": "Singapore_to_Dar_es_Salaam", "start": "Singapore", "end": "Dar es Salaam", "coords": [[1.2644, 103.8407], [5.00, 85.00], [10.00, 75.00], [0.00, 65.00], [-6.7924, 39.2083]], "cost": 9900, "countries_crossed": "Malaysia, Sri Lanka, Kenya, Tanzania"},
+    
+    {"name": "Dubai_to_Dar_es_Salaam", "start": "Dubai", "end": "Dar es Salaam", "coords": [[25.2780, 55.2792], [15.00, 50.00], [5.00, 40.00], [-6.7924, 39.2083]], "cost": 8700, "countries_crossed": "UAE, Somalia, Kenya, Tanzania"},
+    
+    {"name": "New_York_to_Dar_es_Salaam", "start": "New York", "end": "Dar es Salaam", "coords": [[40.6845, -74.0418], [10.00, -40.00], [0.00, -20.00], [-10.00, 10.00], [-6.7924, 39.2083]], "cost": 16000, "countries_crossed": "USA, Brazil, Ghana, Kenya, Tanzania"},
+    
+    {"name": "Los_Angeles_to_Dar_es_Salaam", "start": "Los Angeles", "end": "Dar es Salaam", "coords": [[33.7405, -118.2619], [0.00, -80.00], [-10.00, -40.00], [-6.7924, 39.2083]], "cost": 17500, "countries_crossed": "USA, Panama, Brazil, Tanzania"},
+    
+    {"name": "Santos_to_Dar_es_Salaam", "start": "Santos", "end": "Dar es Salaam", "coords": [[-23.9618, -46.3322], [-10.00, -30.00], [-5.00, 0.00], [-6.7924, 39.2083]], "cost": 11500, "countries_crossed": "Brazil, Ghana, Kenya, Tanzania"},
+    
+    {"name": "Tokyo_to_Dar_es_Salaam", "start": "Tokyo", "end": "Dar es Salaam", "coords": [[35.6895, 139.6917], [20.00, 120.00], [10.00, 90.00], [0.00, 65.00], [-6.7924, 39.2083]], "cost": 14000, "countries_crossed": "Japan, Philippines, India, Tanzania"},
+    
+    {"name": "Cape_Town_to_Dar_es_Salaam", "start": "Cape Town", "end": "Dar es Salaam", "coords": [[-33.9249, 18.4241], [-20.00, 30.00], [-6.7924, 39.2083]], "cost": 7500, "countries_crossed": "South Africa, Mozambique, Tanzania"},
+    
+    {"name": "Sydney_to_Dar_es_Salaam", "start": "Sydney", "end": "Dar es Salaam", "coords": [[-33.8688, 151.2093], [-30.00, 120.00], [-20.00, 80.00], [-6.7924, 39.2083]], "cost": 15500, "countries_crossed": "Australia, Madagascar, Tanzania"},
+    
+    {"name": "Durban_to_Yantian", "start": "Durban", "end": "Yantian", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [22.5707, 114.2517]], "cost": 14000, "countries_crossed": "Mozambique, Sri Lanka, China"},
+    
+    {"name": "Durban_to_Alexandria", "start": "Durban", "end": "Alexandria", "coords":  [[-29.8587, 31.0218], [-10.00, 30.00], [0.00, 40.00], [10.00, 30.00], [31.2001, 29.9187]], "cost": 11500, "countries_crossed": "Mozambique, Sudan, Egypt"},
+    
+    {"name": "Durban_to_Tuticorin",     "start": "Durban", "end": "Tuticorin", "coords":  [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [8.7642, 78.1348]], "cost": 12700, "countries_crossed": "Mozambique, Sri Lanka, India"},
+
+    {"name": "Durban_to_Ennore",        "start": "Durban", "end": "Ennore", "coords":  [[-29.8587, 31.0218], [-20.00, 70.00], [-5.00, 85.00], [13.2383, 80.3194]], "cost": 12900, "countries_crossed": "Mozambique, Sri Lanka, India"},
+    
+    {"name": "Durban_to_Nhava_Sheva",   "start": "Durban", "end": "Nhava Sheva", "coords":  [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [18.9467, 72.9456]], "cost": 12400, "countries_crossed": "Mozambique, Sri Lanka, India"},
+    
+    {"name": "Durban_to_Hakata",        "start": "Durban", "end": "Hakata", "coords":  [[-29.8587, 31.0218], [-20.00, 80.00], [-5.00, 100.00], [33.6056, 130.3925]], "cost": 14700, "countries_crossed": "Mozambique, Sri Lanka, Japan"},
+
+    {"name": "Durban_to_Jeddah",        "start": "Durban", "end": "Jeddah", "coords":  [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 39.1925], [21.4858, 39.1925]], "cost": 11800, "countries_crossed": "Mozambique, Sudan, Saudi Arabia"},
+
+    {"name": "Durban_to_Keelung",       "start": "Durban", "end": "Keelung", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [25.1283, 121.7414]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, Taiwan"},
+
+    {"name": "Durban_to_Taichung_City", "start": "Durban", "end": "Taichung City", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [24.1500, 120.6750]], "cost": 13700, "countries_crossed": "Mozambique, Sri Lanka, Taiwan"},
+
+    {"name": "Durban_to_Laem_Chabang", "start": "Durban", "end": "Laem Chabang", "coords":  [[-29.8587, 31.0218], [-20.00, 80.00], [-5.00, 95.00], [13.0826, 100.8830]], "cost": 12800, "countries_crossed": "Mozambique, Sri Lanka, Thailand"},
+
+    {"name": "Durban_to_Hai_Phong", "start": "Durban", "end": "Hai Phong", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [20.8651, 106.6839]], "cost": 13200, "countries_crossed": "Mozambique, Sri Lanka, Vietnam"},
+
+    {"name": "Durban_to_Huangpu", "start": "Durban", "end": "Huangpu", "coords":  [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [23.1168, 113.4833]], "cost": 14000, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Wuhu",             "start": "Durban", "end": "Wuhu", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [31.3373, 118.3748]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Wuzhou",           "start": "Durban", "end": "Wuzhou", "coords":  [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [23.4833, 111.3167]], "cost": 13700, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Yantai",           "start": "Durban", "end": "Yantai", "coords":  [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 115.00], [37.5333, 121.4000]], "cost": 15000, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Yichang",          "start": "Durban", "end": "Yichang", "coords":  [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [30.7144, 111.2847]], "cost": 13900, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Zhangjiagang",     "start": "Durban", "end": "Zhangjiagang", "coords":  [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 110.00], [31.8656, 120.5381]], "cost": 14200, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Zhanjiang",        "start": "Durban", "end": "Zhanjiang", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 105.00], [21.1962, 110.4039]], "cost": 13600, "countries_crossed": "Mozambique, Sri Lanka, China"},
+    
+    {"name": "Durban_to_Zhapu",            "start": "Durban", "end": "Zhapu", "coords":  [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 110.00], [30.5146, 120.9750]], "cost": 14400, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Zhuhai",           "start": "Durban", "end": "Zhuhai", "coords":  [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [22.2769, 113.5678]], "cost": 13800, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Abu_Dhabi",        "start": "Durban", "end": "Abu Dhabi", "coords":  [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 54.4722], [24.4180, 54.4722]], "cost": 11800, "countries_crossed": "Mozambique, Sudan, UAE"},
+
+    {"name": "Durban_to_Ras_Al_Khaimah",   "start": "Durban", "end": "Ras Al Khaimah", "coords":  [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 55.9432], [25.7895, 55.9432]], "cost": 12000, "countries_crossed": "Mozambique, Sudan, UAE"},
+
+    {"name": "Durban_to_Dalian",           "start": "Durban", "end": "Dalian", "coords":  [[-29.8587, 31.0218], [-20.00, 100.00], [-5.00, 120.00], [38.9915, 121.6413]], "cost": 15200, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Hubei",            "start": "Durban", "end": "ChHubeiambishi", "coords":  [[-29.8587, 31.0218], [-20.00, 90.00], [-5.00, 110.00], [30.5844, 114.2986]], "cost": 14000, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Rizhao",           "start": "Durban", "end": "Rizhao", "coords":  [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 115.00], [35.4275, 119.5539]], "cost": 14500, "countries_crossed": "Mozambique, Sri Lanka, China"},
+
+    {"name": "Durban_to_Tianjin",          "start": "Durban", "end": "Tianjin", "coords":  [[-29.8587, 31.0218], [-20.00, 95.00], [-5.00, 115.00], [39.0416, 117.7416]], "cost": 14700, "countries_crossed": "Mozambique, Sri Lanka, China"},
+    
+    {"name": "Durban_to_Jakarta",          "start": "Durban", "end": "Jakarta", "coords":  [[-29.8587, 31.0218], [-25.00, 80.00], [-10.00, 105.00], [-6.1275, 106.8780]], "cost": 13500, "countries_crossed": "Mozambique, Sri Lanka, Indonesia"},
+
+    {"name": "Durban_to_Kolkata",          "start": "Durban", "end": "Kolkata", "coords":  [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 85.00], [22.5411, 88.3378]], "cost": 12500, "countries_crossed": "Mozambique, Sri Lanka, India"},
+
+    {"name": "Durban_to_Hazira",           "start": "Durban", "end": "Chavmbishi", "coords":  [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [21.1167, 72.6500]], "cost": 12200, "countries_crossed": "Mozambique, Sri Lanka, India"},
+
+    {"name": "Durban_to_Mundra",           "start": "Durban", "end": "Hazira", "coords":  [[-29.8587, 31.0218], [-20.00, 65.00], [-5.00, 80.00], [22.8391, 69.7219]], "cost": 12100, "countries_crossed": "Mozambique, Sri Lanka, India"},
+
+    {"name": "Durban_to_Visakhapatnam",    "start": "Durban", "end": "Visakhapatnam", "coords":  [[-29.8587, 31.0218], [-20.00, 70.00], [-5.00, 85.00], [17.7041, 83.3124]], "cost": 12600, "countries_crossed": "Mozambique, Sri Lanka, India"},
+
+    {"name": "Durban_to_Yamaguchi",        "start": "Durban", "end": "Yamaguchi", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [34.1860, 131.4706]], "cost": 14800, "countries_crossed": "Mozambique, Sri Lanka, Japan"},
+
+    {"name": "Durban_to_Colombo",          "start": "Durban", "end": "Colombo", "coords":  [[-29.8587, 31.0218], [-5.00, 79.8612], [6.9271, 79.8612]], "cost": 9500, "countries_crossed": "Mozambique, Sri Lanka"},
+
+    {"name": "Durban_to_Penang",           "start": "Durban", "end": "Penang", "coords":  [[-29.8587, 31.0218], [-20.00, 85.00], [-5.00, 100.00], [5.4141, 100.3288]], "cost": 13000, "countries_crossed": "Mozambique, Sri Lanka, Malaysia"},
+
+    {"name": "Durban_to_Istanbul",               "start": "Durban", "end": "Istanbul", "coords":  [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [10.00, 35.00], [41.0082, 28.9784]], "cost": 12500, "countries_crossed": "Mozambique, Sudan, Egypt, Turkey"},
+
+    {"name": "Durban_to_Antwerp",                "start": "Durban", "end": "Antwerp", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [20.00, 5.00], [51.2605, 4.3706]], "cost": 13000, "countries_crossed": "Mozambique, Ghana, Spain, Belgium"},
+
+    {"name": "Durban_to_Bremerhaven_HB",         "start": "Durban", "end": "Bremerhaven HB", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [20.00, 5.00], [53.5397, 8.5765]], "cost": 13200, "countries_crossed": "Mozambique, Ghana, Spain, Germany"},
+
+    {"name": "Durban_to_Hamburg_HH",             "start": "Durban", "end": "Hamburg HH", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [20.00, 5.00], [53.5511, 9.9937]], "cost": 13400, "countries_crossed": "Mozambique, Ghana, Spain, Germany"},
+
+    {"name": "Durban_to_Algeciras", "start": "Durban", "end": "Algeciras", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [36.1260, -5.4505]], "cost": 11800, "countries_crossed": "Mozambique, Ghana, Spain"},
+    
+    {"name": "Durban_to_Barcelona", "start": "Durban", "end": "Barcelona", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [41.3543, 2.1589]], "cost": 12100, "countries_crossed": "Mozambique, Ghana, Spain"},
+    
+    {"name": "Durban_to_Bilbao", "start": "Durban", "end": "Bilbao", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [43.3053, -3.0082]], "cost": 12250, "countries_crossed": "Mozambique, Ghana, Spain"},
+    
+    {"name": "Durban_to_Vigo", "start": "Durban", "end": "Vigo", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [42.2406, -8.7207]], "cost": 12300, "countries_crossed": "Mozambique, Ghana, Spain"},
+    
+    {"name": "Durban_to_Valencia", "start": "Durban", "end": "Valencia", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [39.4667, -0.3750]], "cost": 12000, "countries_crossed": "Mozambique, Ghana, Spain"},
+    
+    {"name": "Durban_to_Le_Havre_Seine_Maritime", "start": "Durban", "end": "Le Havre Seine Maritime", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [49.4938, 0.1077]], "cost": 12800, "countries_crossed": "Mozambique, Ghana, Spain, France"},
+    
+    {"name": "Durban_to_Immingham_Lincolnshire", "start": "Durban", "end": "Immingham Lincolnshire", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [53.6126, -0.1901]], "cost": 12900, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
+    
+    {"name": "Durban_to_London_Gateway_Port_Essex", "start": "Durban", "end": "London Gateway Port Essex", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [51.5145, 0.4170]], "cost": 12700, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
+    
+    {"name": "Durban_to_Kristiansand_S", "start": "Durban", "end": "Kristiansand S", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [58.1444, 7.9948]], "cost": 14000, "countries_crossed": "Mozambique, Ghana, Spain, Norway"},
+    
+    {"name": "Durban_to_Gdynia", "start": "Durban", "end": "Gdynia", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [54.5189, 18.5305]], "cost": 14200, "countries_crossed": "Mozambique, Ghana, Spain, Poland"},
+    
+    {"name": "Durban_to_Casablanca", "start": "Durban", "end": "Casablanca", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, -10.00], [33.5994, -7.6200]], "cost": 11700, "countries_crossed": "Mozambique, Ghana, Morocco"},
+    
+    {"name": "Durban_to_Bergen", "start": "Durban", "end": "Bergen", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [60.3913, 5.3221]], "cost": 14400, "countries_crossed": "Mozambique, Ghana, Spain, Norway"},
+    
+    {"name": "Durban_to_Oslo", "start": "Durban", "end": "Oslo", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [59.9139, 10.7522]], "cost": 14500, "countries_crossed": "Mozambique, Ghana, Spain, Norway"},
+    
+    {"name": "Durban_to_Leixoes", "start": "Durban", "end": "Leixoes", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, -5.00], [41.1850, -8.7089]], "cost": 11850, "countries_crossed": "Mozambique, Ghana, Portugal"},
+    
+    {"name": "Durban_to_Constanta", "start": "Durban", "end": "Constanta", "coords":  [[-29.8587, 31.0218], [-10.00, 40.00], [0.00, 30.00], [44.1747, 28.6383]], "cost": 12600, "countries_crossed": "Mozambique, Sudan, Egypt, Romania"},
+    
+    {"name": "Durban_to_Gothenburg", "start": "Durban", "end": "Gothenburg", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [57.7089, 11.9746]], "cost": 14700, "countries_crossed": "Mozambique, Ghana, Spain, Sweden"},
+    
+    {"name": "Durban_to_Stockholm", "start": "Durban", "end": "Stockholm", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [59.3293, 18.0686]], "cost": 14850, "countries_crossed": "Mozambique, Ghana, Spain, Sweden"},
+    
+    {"name": "Durban_to_Gemlik", "start": "Durban", "end": "Gemlik", "coords":  [[-29.8587, 31.0218], [-10.00, 50.00], [0.00, 40.00], [40.4292, 29.1628]], "cost": 12400, "countries_crossed": "Mozambique, Sudan, Egypt, Turkey"},
+    
+    {"name": "Durban_to_Kotka", "start": "Durban", "end": "Kotka", "coords":  [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [60.4661, 26.9458]], "cost": 14500, "countries_crossed": "Mozambique, Ghana, Spain, Finland"},
+    
+    {"name": "Durban_to_Rauma", "start": "Durban", "end": "Rauma", "coords":  [[-29.8587, 31.0218], [-10.00, 20.00], [0.00, 10.00], [61.1286, 21.5053]], "cost": 14600, "countries_crossed": "Mozambique, Ghana, Spain, Finland"},
+    
+    {"name": "Durban_to_Belfast", "start": "Durban", "end": "Belfast", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [54.6079, -5.9264]], "cost": 13200, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
+    
+    {"name": "Durban_to_Grangemouth_Falkirk", "start": "Durban", "end": "Grangemouth Falkirk", "coords":  [[-29.8587, 31.0218], [-10.00, 10.00], [0.00, 0.00], [56.0201, -3.7194]], "cost": 13500, "countries_crossed": "Mozambique, Ghana, Spain, UK"},
 
     ]
     

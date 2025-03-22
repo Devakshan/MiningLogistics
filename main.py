@@ -3,6 +3,7 @@ import maps
 import Statics
 import ChrisData
 import pdf
+import datetime
 
 app = Flask(__name__)
 
@@ -136,6 +137,8 @@ def index():
         elif action == 'options':
             return render_template(
                 "form.html",
+                origin=origin,
+                destination=destination,
                 ), 200    
 
         else:
@@ -145,6 +148,10 @@ def index():
         shipment = ""
         cargo = ""
         TotCargoWPC = 0
+        origin = ""
+        destination = ""
+        containers = 0
+        
         
         params = []
         for key, value in request.args.items():            
@@ -154,11 +161,32 @@ def index():
                 shipment = value
             if key == "cargo" :
                 cargo = value
+            if key == "origin" :
+                origin = value
+            if key == "destination" :
+                destination = value
             if key == "TotCargoWPC" :
                 TotCargoWPC = value
-        pdf.generate_invoice("logistics_invoice.pdf", pdf.invoice_data)
-        print("{}:{}\n".format(shipment, cargo))  
-        print("weight:{}".format(TotCargoWPC))         
+            if key == "Containers" :
+                containers = value
+            
+        invoice_data = {
+        "Invoice Number": "12345",
+        "Invoice Date": datetime.date.today(),
+        "Shipment Type": cargo,
+        "Origin": origin,
+        "Destination": destination,
+        "Number of Containers": containers,
+        "Tonnage": TotCargoWPC+" tons",
+        "Cost": "$50,000",
+        "Route": "Truck"
+        }
+        
+        pdf.generate_invoice("logistics_invoice.pdf", invoice_data)    
+        distance = dist(origin,destination) 
+        total_cost = price(origin,destination,TotCargoWPC)
+        T = Statics.Show_trips(origin,destination)
+        Statics.compile(T)    
         return  render_template(
                 "place.html",
                 facilities=facilities,
@@ -166,7 +194,7 @@ def index():
                 origin=origin,
                 destination=destination,
                 total_cost=total_cost,
-                tonnage=0,
+                tonnage=TotCargoWPC,
                 distance=distance,
             ), 200
     else:

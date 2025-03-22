@@ -31,6 +31,28 @@
             <label><input type="radio" name="shipment" value="export"> Export</label>
         </div>
 
+        <!-- Origin and Destination Dropdowns -->
+        <div id="origin-destination" class="hidden mt-4">
+            <div>
+                <label for="origin" class="block">Origin:</label>
+                <select id="origin" name="origin" class="w-full p-2 rounded bg-gray-800 text-white">
+                    {% for origin in origin %}
+                    <option value="{{ origin }}">{{ origin }}</option>
+                    {% endfor %}
+                    <!-- Add more origins as needed -->
+                </select>
+            </div>
+            <div class="mt-4">
+                <label for="destination" class="block">Destination:</label>
+                <select id="destination" name="destination" class="w-full p-2 rounded bg-gray-800 text-white">
+                    {% for destination in destination %}
+                    <option value="{{ destination }}">{{ destination }}</option>                    
+                    {% endfor %}
+                    <!-- Add more destinations as needed -->
+                </select>
+            </div>
+        </div>
+
         <!-- Trade Terms -->
         <div>
             <h2 class="text-lg font-semibold">Select Trade Terms</h2>
@@ -65,7 +87,7 @@
                 <option>Flat Rack</option>
                 <option>Tank Container</option>
             </select>
-            <input type="number" placeholder="Number of Containers" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
+            <input type="number" id="Containers" name="Containers" placeholder="Number of Containers" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
             <input type="number" id="TotCargoWPC" name="TotCargoWPC" placeholder="Total Cargo Weight per Container" class="w-full p-2 mt-2 rounded bg-gray-800 text-white">
         </div>
 
@@ -110,6 +132,20 @@
                 if (this.value === 'lcl') document.getElementById('lcl-options').classList.remove('hidden');
                 if (this.value === 'bulk') document.getElementById('bulk-options').classList.remove('hidden');
                 if (this.value === 'special') document.getElementById('special-options').classList.remove('hidden');
+            });
+        });
+
+        // JavaScript for showing Origin and Destination dropdowns based on shipment type
+        const shipmentRadios = document.querySelectorAll('input[name="shipment"]');
+        const originDestinationDiv = document.getElementById('origin-destination');
+        
+        shipmentRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (document.querySelector('input[name="shipment"]:checked')) {
+                    originDestinationDiv.classList.remove('hidden');
+                } else {
+                    originDestinationDiv.classList.add('hidden');
+                }
             });
         });
     </script>
