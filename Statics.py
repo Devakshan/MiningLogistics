@@ -361,7 +361,7 @@ def Show_trips(start,end):
                 for trainroutes in ChrisData.ChatVars.train_routes:
                     
                     if ((start == trainroutes["start"]) and (end == trainroutes["end"])):
-                        Show_trip.append(Trip_list[index])
+                        Show_trip.append(Trip_list[index-22])
                         print(index)
                     else:
                         index = index + 1
