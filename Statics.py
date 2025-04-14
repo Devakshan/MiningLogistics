@@ -360,30 +360,70 @@ def Show_trips(start,end,start_port,end_port):
         try:
             Show_trip = []
             index = 0
-            TL = make_train_routes()       
-            for i in TL:
-                Trip_list.append(i)
+            index1 = 0
+            index2 = 0
             TL = make_truck_routes()       
             for i in TL:
                 Trip_list.append(i)
-            
+            TL = make_train_routes()       
+            for i in TL:
+                Trip_list.append(i)
+
+
+            #PORT TO PORT
             for truckroutes in ChrisData.ChatVars.truck_routes:
                 
-                if ((start == truckroutes["start"]) and (end == truckroutes["end"])):
+                if ((start_port == truckroutes["start"]) and (end_port == truckroutes["end"])):
                     Show_trip.append(Trip_list[index])
                     
                 else:
                     index = index + 1
-            if index >= (len(ChrisData.ChatVars.truck_routes)-1):
-                
-                for trainroutes in ChrisData.ChatVars.train_routes:
-                    
-                    if ((start == trainroutes["start"]) and (end == trainroutes["end"])):
-                        Show_trip.append(Trip_list[index-22])
-                        print(index)
+            if index >= (len(ChrisData.ChatVars.truck_routes)-1):               
+                for trainroutes in ChrisData.ChatVars.train_routes:    
+                    if ((start_port == trainroutes["start"]) and (end_port == trainroutes["end"])):
+                        Show_trip.append(Trip_list[index])
+                        
                     else:
                         index = index + 1
             
+            #PORT TO PORT
+
+            #LAND TO PORT
+            for truckroutes in ChrisData.ChatVars.truck_routes:
+                
+                if ((start == truckroutes["start"]) and (start_port == truckroutes["end"])):
+                    Show_trip.append(Trip_list[index1])
+                    print("1")
+                    break
+                else:
+                    index1 = index1 + 1
+            if index1 > (len(ChrisData.ChatVars.truck_routes)):               
+                for trainroutes in ChrisData.ChatVars.train_routes:    
+                    if ((start == trainroutes["start"]) and (start_port == trainroutes["end"])):
+                        Show_trip.append(Trip_list[index1])
+                        print("2")
+                    else:
+                        index1 = index1 + 1
+            
+            #LAND TO PORT
+
+            #PORT TO LAND
+            for truckroutes in ChrisData.ChatVars.truck_routes:
+                
+                if ((end_port == truckroutes["start"]) and (end == truckroutes["end"])):
+                    Show_trip.append(Trip_list[index2])
+                else:
+                    index2 = index2 + 1
+            if index2 > (len(ChrisData.ChatVars.truck_routes)):               
+                for trainroutes in ChrisData.ChatVars.train_routes:    
+                    if ((end_port == trainroutes["start"]) and (end == trainroutes["end"])):
+                        Show_trip.append(Trip_list[index2])
+                        print(index2)
+                    else:
+                        index2 = index2 + 1
+            
+            #PORT TO LAND
+
             return Show_trip
         except:        
             print("E")

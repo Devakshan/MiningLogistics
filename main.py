@@ -29,26 +29,26 @@ COST_PER_TON = 50
 
 def destinations():
     dest_list = []
-    for port in ports:
-        dest_list.append(port["name"])
+    for facilitie in facilities:
+        dest_list.append(facilitie["name"])
     return dest_list
 
 def origins():
     origin_list = []
-    for facilitie in ports:
+    for facilitie in facilities:
         origin_list.append(facilitie["name"])
     return origin_list
 
 def port_origins():
     port_origin_list = []
-    for facilitie in ports:
-        port_origin_list.append(facilitie["name"])
+    for port in ports:
+        port_origin_list.append(port["name"])
     return port_origin_list
 
 def port_destinations():
     dest_origin_list = []
-    for facilitie in facilities:
-        dest_origin_list.append(facilitie["name"])
+    for port in ports:
+        dest_origin_list.append(port["name"])
     return dest_origin_list
 
 def dist(start,end):
@@ -121,6 +121,8 @@ def index():
         elif action == 'reset':
             selected_origin = request.form.get("origin")
             selected_destination = request.form.get("destination")
+            selected_origin_port = request.form.get("origin_port")
+            selected_destination_port = request.form.get("destination_port")
             show_routes = request.form.get("route")
             show_routes_checked = show_routes == "true"
             print(show_routes_checked)
@@ -129,7 +131,7 @@ def index():
             distance = dist(selected_origin,selected_destination) 
             total_cost = price(selected_origin,selected_destination,tonnage)
             if(show_routes_checked):
-                T = Statics.Show_trips(selected_origin,selected_destination)
+                T = Statics.Show_trips(selected_origin,selected_destination,selected_origin_port,selected_destination_port)
                 Statics.compile(T) 
             else:
                 T = Statics.Show_trips("","","","")
