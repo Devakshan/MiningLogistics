@@ -229,6 +229,7 @@ class ChatVars:
     {"company": "None", "name": "Melmoth", "coords": [-28.5833, 31.4000], "type": "None", "volume": "None", "details": "Truck loading zone"},
     {"company": "None", "name": "Glencoe / Dundee", "coords": [-28.1667, 30.2333], "type": "None", "volume": "None", "details": "Truck loading zone"},
     {"company": "None", "name": "Ladysmith", "coords": [-28.5500, 29.7833], "type": "None", "volume": "None", "details": "Truck loading zone"},
+    {"company": "Zhenhua Minerals",  "name": "Zhenhua Mine",  "coords": [35.6895, 104.1141],  "type": "Rare Earth Elements",  "volume": "1,200 tons/year (REEs)",  "details": "Key supplier of rare earth elements primarily used in electronics and clean energy technologies."},
 
 
 

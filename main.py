@@ -39,6 +39,18 @@ def origins():
         origin_list.append(facilitie["name"])
     return origin_list
 
+def port_origins():
+    port_origin_list = []
+    for facilitie in ports:
+        port_origin_list.append(facilitie["name"])
+    return port_origin_list
+
+def port_destinations():
+    dest_origin_list = []
+    for facilitie in facilities:
+        dest_origin_list.append(facilitie["name"])
+    return dest_origin_list
+
 def dist(start,end):
     try:
         distance = distances[start,end]
@@ -67,6 +79,8 @@ def price(start, end, tons):
 def index():
     origin = origins()
     destination = destinations()
+    origin_port = port_origins()
+    destination_port = port_destinations()
     total_cost = 0
     tonnage = 0
     distance = None 
@@ -75,14 +89,15 @@ def index():
         if action == 'calculate':
             selected_origin = request.form.get("origin")
             selected_destination = request.form.get("destination")
-            
+            selected_origin_port = request.form.get("origin_port")
+            selected_destination_port = request.form.get("destination_port")
             try:
                 tonnage = int(request.form.get("tonnage", 0))
             except:
                 tonnage = 0
             distance = dist(selected_origin,selected_destination) 
             total_cost = price(selected_origin,selected_destination,tonnage)
-            T = Statics.Show_trips(selected_origin,selected_destination)
+            T = Statics.Show_trips(selected_origin,selected_destination,selected_origin_port,selected_destination_port)
             Statics.compile(T)
             #print(T)
             # Calculate distance and total cost
@@ -94,6 +109,8 @@ def index():
                 ports=ports,
                 origin=origin,
                 destination=destination,
+                origin_port=origin_port,
+                destination_port=destination_port,
                 total_cost=total_cost,
                 tonnage=tonnage,
                 distance=distance,
@@ -115,7 +132,7 @@ def index():
                 T = Statics.Show_trips(selected_origin,selected_destination)
                 Statics.compile(T) 
             else:
-                T = Statics.Show_trips("","")
+                T = Statics.Show_trips("","","","")
                 Statics.compile(T)
             #print(T)
             # Calculate distance and total cost
@@ -128,6 +145,8 @@ def index():
                 ports=ports,
                 origin=origin,
                 destination=destination,
+                origin_port=origin_port,
+                destination_port=destination_port,
                 total_cost=total_cost,
                 tonnage=0,
                 distance=distance,
@@ -139,6 +158,8 @@ def index():
                 "form.html",
                 origin=origin,
                 destination=destination,
+                origin_port=origin_port,
+                destination_port=destination_port,
                 ), 200    
 
         else:
@@ -197,6 +218,8 @@ def index():
                     ports=ports,
                     origin=origin,
                     destination=destination,
+                    origin_port=origin_port,
+                    destination_port=destination_port,
                     total_cost=total_cost,
                     tonnage=TotCargoWPC,
                     distance=distance,
@@ -228,6 +251,8 @@ def index():
                 ports=ports,
                 origin=origin,
                 destination=destination,
+                origin_port=origin_port,
+                destination_port=destination_port,
                 total_cost=total_cost,
                 tonnage=0,
                 distance=distance,
@@ -240,6 +265,8 @@ def index():
                 ports=ports,
                 origin=origin,
                 destination=destination,
+                origin_port=origin_port,
+                destination_port=destination_port,
                 total_cost=total_cost,
                 tonnage=0,
                 distance=distance,

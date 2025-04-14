@@ -142,7 +142,7 @@ head = """<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 #</head>
 
 #<body>
-body = """<form id+="myForm" method="POST" action="/">
+body = """<form id="myForm" method="POST" action="/">
     <!-- Origin and Destination Dropdowns in a Single Row -->
     <div class="dropdowns">
         <div>
@@ -151,7 +151,6 @@ body = """<form id+="myForm" method="POST" action="/">
                 {% for origin in origin %}
                     <option value="{{ origin }}">{{ origin }}</option>
                 {% endfor %}
-                <!-- Add more origins as needed -->
             </select>
         </div>
         <div>
@@ -160,7 +159,26 @@ body = """<form id+="myForm" method="POST" action="/">
                 {% for destination in destination %}
                     <option value="{{ destination }}">{{ destination }}</option>                    
                 {% endfor %}
-                <!-- Add more destinations as needed -->
+            </select>
+        </div>
+    </div>
+
+    <!-- New Dropdowns for Ports -->
+    <div class="dropdowns">
+        <div>
+            <label for="origin_port">Origin Port:</label>
+            <select id="origin_port" name="origin_port">
+                {% for origin_port in origin_port %}
+                    <option value="{{ origin_port }}">{{ origin_port }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="destination_port">Destination Port:</label>
+            <select id="destination_port" name="destination_port">
+                {% for destination_port in destination_port %}
+                    <option value="{{ destination_port }}">{{ destination_port }}</option>
+                {% endfor %}
             </select>
         </div>
     </div>
@@ -168,7 +186,7 @@ body = """<form id+="myForm" method="POST" action="/">
     <!-- Tonnage Input -->
     <div>
         <label for="tonnage">Tonnage:</label>
-        <input type="number" id="tonnage" name="tonnage" min="0" step="any" >
+        <input type="number" id="tonnage" name="tonnage" min="0" step="any">
     </div>
 
     <button type="submit" name="action" value="calculate">Calculate</button>
@@ -179,9 +197,9 @@ body = """<form id+="myForm" method="POST" action="/">
 
 {% if origin and destination and tonnage is not none %}
     <div class="output">
-        <h2>From:{{ selected_origin }} To: {{ selected_destination }} </h2>
+        <h2>From: {{ selected_origin }} To: {{ selected_destination }}</h2>
         <p>Tonnage: {{ tonnage }} tons<br/>
-        
+
         {% if distance %}
             Distance: {{ distance }} miles<br/>
             Total Cost: R {{ total_cost }}</p>
@@ -191,8 +209,8 @@ body = """<form id+="myForm" method="POST" action="/">
     </div>
 {% endif %}
 
-
-    <div class="folium-map" id="map_ef351b401d0d0ebc9cf28f62d63cb3ee" ></div>"""
+<div class="folium-map" id="map_ef351b401d0d0ebc9cf28f62d63cb3ee"></div>
+"""
 #</body>
 
 #<script>
@@ -333,7 +351,7 @@ train_list = []
 
 Show_trip = []
 
-def Show_trips(start,end):
+def Show_trips(start,end,start_port,end_port):
     
     if(start == end):
         Trip_list.clear()
@@ -522,7 +540,7 @@ def reset():
 
     make_html(heads,bodys,scripts)
 
-Show_trip  = Show_trips("","")
+Show_trip  = Show_trips("","","","")
 marker_maker()
 make_port()
 heads = [head]

@@ -134,7 +134,7 @@
 
 </head>
 
-<body><form id+="myForm" method="POST" action="/">
+<body><form id="myForm" method="POST" action="/">
     <!-- Origin and Destination Dropdowns in a Single Row -->
     <div class="dropdowns">
         <div>
@@ -143,7 +143,6 @@
                 {% for origin in origin %}
                     <option value="{{ origin }}">{{ origin }}</option>
                 {% endfor %}
-                <!-- Add more origins as needed -->
             </select>
         </div>
         <div>
@@ -152,7 +151,26 @@
                 {% for destination in destination %}
                     <option value="{{ destination }}">{{ destination }}</option>                    
                 {% endfor %}
-                <!-- Add more destinations as needed -->
+            </select>
+        </div>
+    </div>
+
+    <!-- New Dropdowns for Ports -->
+    <div class="dropdowns">
+        <div>
+            <label for="origin_port">Origin Port:</label>
+            <select id="origin_port" name="origin_port">
+                {% for origin_port in origin_port %}
+                    <option value="{{ origin_port }}">{{ origin_port }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="destination_port">Destination Port:</label>
+            <select id="destination_port" name="destination_port">
+                {% for destination_port in destination_port %}
+                    <option value="{{ destination_port }}">{{ destination_port }}</option>
+                {% endfor %}
             </select>
         </div>
     </div>
@@ -160,7 +178,7 @@
     <!-- Tonnage Input -->
     <div>
         <label for="tonnage">Tonnage:</label>
-        <input type="number" id="tonnage" name="tonnage" min="0" step="any" >
+        <input type="number" id="tonnage" name="tonnage" min="0" step="any">
     </div>
 
     <button type="submit" name="action" value="calculate">Calculate</button>
@@ -171,9 +189,9 @@
 
 {% if origin and destination and tonnage is not none %}
     <div class="output">
-        <h2>From:{{ selected_origin }} To: {{ selected_destination }} </h2>
+        <h2>From: {{ selected_origin }} To: {{ selected_destination }}</h2>
         <p>Tonnage: {{ tonnage }} tons<br/>
-        
+
         {% if distance %}
             Distance: {{ distance }} miles<br/>
             Total Cost: R {{ total_cost }}</p>
@@ -183,8 +201,8 @@
     </div>
 {% endif %}
 
+<div class="folium-map" id="map_ef351b401d0d0ebc9cf28f62d63cb3ee"></div>
 
-    <div class="folium-map" id="map_ef351b401d0d0ebc9cf28f62d63cb3ee" ></div>
 
 
 
@@ -3461,6 +3479,22 @@ var marker_db4d05cb916673810c235e140cf47374 = L.marker([-28.55, 29.7833],
                 {"sticky": true}
             );
 
+var marker_db4d05cb916673810c235e140cf47374 = L.marker([35.6895, 104.1141],
+                {}
+            ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+            var icon_0ed051f64532aae3297aa7eea80ba936 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "folder-close", "iconColor": "white", "markerColor":"pink", "prefix": "glyphicon"}
+            );
+            marker_db4d05cb916673810c235e140cf47374.setIcon(icon_0ed051f64532aae3297aa7eea80ba936);        
+            var popup_349b07703dcaf48dada8b6466b920a58 = L.popup({"maxWidth": "100%"});
+            var html_0b23c9ea1a551fa307c65d219af76310 = $(`<div id="html_0b23c9ea1a551fa307c65d219af76310" style="width: 100.0%; height: 100.0%;">Zhenhua Mine</div>`)[0];
+            popup_349b07703dcaf48dada8b6466b920a58.setContent(html_0b23c9ea1a551fa307c65d219af76310);
+            marker_db4d05cb916673810c235e140cf47374.bindPopup(popup_349b07703dcaf48dada8b6466b920a58);
+            marker_db4d05cb916673810c235e140cf47374.bindTooltip(
+                `<div>Key supplier of rare earth elements primarily used in electronics and clean energy technologies.</div>`,
+                {"sticky": true}
+            );
+
 var marker_db4d05cb916673810c235e140cf47374 = L.marker([-29.8587, 31.0218],
                 {}
             ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
@@ -6404,6 +6438,18 @@ var marker_db4d05cb916673810c235e140cf47374 = L.marker([43.5485, 10.3106],
                 `<div>A key Italian port on the Ligurian Sea, facilitating trade with Europe and North Africa.</div>`,
                 {"sticky": true}
             );
+
+var poly_line_Durban_to_Singapore = L.polyline(
+                    [[-29.8587, 31.0218], [-20.0, 60.0], [-10.0, 85.0], [1.2644, 103.8407]],
+                    {"bubblingMouseEvents": true, "color": "#0000FF", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#0000FF", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+                ).addTo(map_ef351b401d0d0ebc9cf28f62d63cb3ee);        
+        
+                poly_line_Durban_to_Singapore.bindTooltip(
+                    `<div>
+                        Durban_to_Singapore
+                    </div>`,
+                    {"sticky": true}
+                );
 
 
 
